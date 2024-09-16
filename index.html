@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MPI (Message Passing Interface) avec le langage R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MPI (Message Passing Interface) avec le langage R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Supports pour apprendre à utiliser la bibliothèque MPI avec R</p>
+<section id="bibliographie" class="level1">
+<h1>Bibliographie</h1>
+<ul>
+<li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Rmpi</a></li>
+<li><a href="http://www.idris.fr/formations/mpi/">Supports de cours MPI</a> Dimitri Lecas - Rémi Lacroix - Serge Van Criekingen - Myriam Peyrounette CNRS — IDRIS</li>
+<li>Site du MPI Forum http://www.mpi-forum.org</li>
+<li>Normes disponible en PDF sur http://www.mpi-forum.org/docs/</li>
+</ul>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>L’utilisation de la bibliothèque MPI permet d’exploiter le parallélisme des ordinateurs en utilisant le paradigme de l’échange de messages.</p>
+<p>On parle de programme séquentiel lorsqu’il est exécuté par un et un seul processus. Dans ce cas, toutes les variables et constantes sont allouées dans la mémoire allouée au processus</p>
+<p>Dans un programme parallèle par échanges de messages - Le programme est exécuté simultanément dans plusieurs processus. - Toutes les variables sont privées et résident dans la mémoire locale allouée à chaque processus. - Chaque processus exécute éventuellement des parties différentes d’un programme. - Une donnée est échangée entre deux ou plusieurs processus via des appels de fonctions.</p>
+</section>
+<section id="léchange-de-messages" class="level1">
+<h1>L’échange de messages</h1>
+<p>Le message est constitué de paquets de données transitant du processus émetteur au(x) processus récepteur(s). Il devra contenir:</p>
+<ul>
+<li>Les données (variables scalaires, tableaux, etc.)</li>
+<li>l’identificateur du processus émetteur</li>
+<li>le type de la donnée</li>
+<li>sa longueur</li>
+<li>l’identificateur du processus récepteur.</li>
+</ul>
+</section>
+<section id="architecture-des-supercalculateurs" class="level1">
+<h1>Architecture des supercalculateurs</h1>
+<p>La plupart des supercalculateurs sont des machines à mémoire distribuée. Ils sont composés d’un ensemble de nœud, à l’intérieur d’un nœud la mémoire est partagée.</p>
+</section>
+<section id="mpi-vs-openmp" class="level1">
+<h1>MPI vs OpenMP</h1>
+<p>OpenMP utilise un schéma à mémoire partagée, tandis que pour MPI la mémoire est distribuée.</p>
+</section>
+<section id="historique" class="level1">
+<h1>Historique</h1>
+<ul>
+<li>Version 1.0 : en juin 1994, le forum MPI, avec la participation d’une quarantaine d’organisations, aboutit à la définition d’un ensemble de sous-programmes concernant la bibliothèque d’échanges de messagesMPI</li>
+<li>Version 2.0 : apparue en juillet 1997, cette version apportait des compléments importants volontairement non intégrés dans MPI 1.0 (gestion dynamique de processus, copies mémoire à mémoire, entrées-sorties parallèles, etc.)</li>
+<li>Version 3.0 : septembre 2012, cette version apportait les communications collectives non bloquantes, nouvelle interface Fortran, etc.</li>
+<li>Version 4.0 : juin 2021</li>
+</ul>
+</section>
+<section id="implémentations-mpi" class="level1">
+<h1>Implémentations MPI</h1>
+<ul>
+<li>MPICH :http://www.mpich.org</li>
+<li>Open MPI :http://www.open-mpi.org</li>
+</ul>
+<p>Bibliothèques scientifiques parallèles</p>
+<p>HDF5 : Lecture et écriture sur fichiers. https://www.hdfgroup.org/downloads/hdf5</p>
+</section>
+<section id="anatomie-dun-programme-mpi" class="level1">
+<h1>Anatomie d’un programme MPI</h1>
+<ul>
+<li>initialiser l’environnement <code>MPI_Init()</code></li>
+<li>fermer <code>MPI_Finalize()</code></li>
+<li>communicateur</li>
+<li>rang</li>
+<li>nombre de processus</li>
+</ul>
+</section>
+<section id="exemple-c" class="level1">
+<h1>Exemple C</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;mpi.h&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span><span class="op">**</span> argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Initialize the MPI environment</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    MPI_Init<span class="op">(</span>NULL<span class="op">,</span> NULL<span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get the number of processes</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> world_size<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    MPI_Comm_size<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>world_size<span class="op">);</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get the rank of the process</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> world_rank<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    MPI_Comm_rank<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>world_rank<span class="op">);</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get the name of the processor</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> processor_name<span class="op">[</span>MPI_MAX_PROCESSOR_NAME<span class="op">];</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> name_len<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    MPI_Get_processor_name<span class="op">(</span>processor_name<span class="op">,</span> <span class="op">&amp;</span>name_len<span class="op">);</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Print off a hello world message</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Hello world from processor </span><span class="sc">%s</span><span class="st">, rank </span><span class="sc">%d</span><span class="st"> out of </span><span class="sc">%d</span><span class="st"> processors</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>           processor_name<span class="op">,</span> world_rank<span class="op">,</span> world_size<span class="op">);</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Finalize the MPI environment.</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    MPI_Finalize<span class="op">();</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="compilation-et-exécution-dun-code-mpi-en-c-ou-fortran" class="level1">
+<h1>Compilation et exécution d’un code MPI en C ou Fortran</h1>
+<p>Pour compiler un code MPI, il faut faire le lien avec la librairie MPI utilisée en utilisant par exemple : <code>mpif90</code> ou <code>mpicc</code></p>
+<pre><code>&gt; mpicc &lt;options&gt; -c source.c
+&gt; mpicc source.o -o mon_executable</code></pre>
+<p>Pour exécuter un code MPI, on utilise un lanceur d’application MPI qui ordonne le lancement de l’exécution sur un nombre de processus choisi. Le lanceur défini par la norme MPI est <code>mpiexec</code>. Il existe également des lanceurs non standards, comme <code>mpirun</code>.</p>
+<pre><code>&gt; mpiexec -n &lt;nombre de processus&gt; mon_executable</code></pre>
+</section>
+<section id="exemple-c-1" class="level1">
+<h1>Exemple C</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpicc <span class="ex">hello_mpi.c</span> <span class="at">-o</span> hello</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 ./hello</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 2 out of 4 processors</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 3 out of 4 processors</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 1 out of 4 processors</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 0 out of 4 processors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="exemple-python" class="level1">
+<h1>Exemple Python</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> MPI.COMM_WORLD.Get_size()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>rank <span class="op">=</span> MPI.COMM_WORLD.Get_rank()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> MPI.Get_processor_name()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>println(<span class="ss">f"Hello, World! I am process </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>size<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 python hello_mpi.py                     </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="mpi-exercice-1-environnement-mpi" class="level1">
+<h1>MPI – Exercice 1 : Environnement MPI</h1>
+<p>Implémenter un programme MPI dans lequel chaque processus affiche un message indiquant si son rang est pair ou impair. Par exemple :</p>
+<pre><code>&gt; mpiexec -n 4 ./pair_impair
+Moi, processus 0, je suis de rang pair
+Moi, processus 2, je suis de rang pair
+Moi, processus 3, je suis de rang impair
+Moi, processus 1, je suis de rang impair</code></pre>
+</section>
+<section id="communications-point-à-point" class="level1">
+<h1>Communications point à point</h1>
+<p>Une communication dite point à point a lieu entre deux processus, l’un appelé processus émetteur et l’autre processus récepteur (ou destinataire). L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur. L’entité transmise entre deux processus est appelée message. Un message est caractérisé par son enveloppe. Celle-ci est constituée : - du rang du processus émetteur ; - du rang du processus récepteur ; - de l’étiquette (tag) du message ; - du communicateur qui définit le groupe de processus et le contexte de communication. - Les données échangées sont typées (entiers, réels, etc…)</p>
+<pre><code>int MPI_Send( const void *message, int longueur, MPI_Datatype type_message,
+int rang_dest, int etiquette, MPI_Comm comm)</code></pre>
+<p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.</p>
+</section>
+<section id="communications-point-à-point-1" class="level1">
+<h1>Communications point à point</h1>
+<section id="opération-de-réceptionmpi_recv" class="level2">
+<h2 class="anchored" data-anchor-id="opération-de-réceptionmpi_recv">Opération de réceptionMPI_Recv</h2>
+<pre><code>int MPI_Recv( void *message, int longueur, MPI_Datatype type_message,
+int rang_source, int etiquette,MPI_Comm comm, MPI_Status*status)</code></pre>
+<p>Réception, à partir de l’adresse message, d’un message de taille longueur, de type</p>
+<p>type_message, étiqueté etiquette, du processus rang_source.</p>
+<p>Remarques :</p>
+<p>statut stocke des informations sur la communication : rang_source, etiquette,</p>
+<p>code,…</p>
+<p>L’appelMPI_Recvne pourra fonctionner avec une opérationMPI_Sendque si ces</p>
+<p>deux appels ont la même enveloppe (rang_source, rang_dest, etiquette, comm).</p>
+<p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le</p>
+<p>contenu de message corresponde au message reçu.</p>
+</section>
+</section>
+<section id="communications-point-à-point-2" class="level1">
+<h1>Communications point à point</h1>
+<section id="exemple-voir-fig.-10" class="level2">
+<h2 class="anchored" data-anchor-id="exemple-voir-fig.-10">Exemple (voir Fig. 10)</h2>
+<p>1 /<em>point_a_point</em>/ 2 <strong>#include</strong> &lt;mpi.h&gt; 3 <strong>#include</strong> &lt;stdio.h&gt; 4 5 <strong>int</strong> main( <strong>int</strong> argc, <strong>char</strong> *argv[]) { 6 <strong>int</strong> rang,valeur; 7 <strong>int</strong> etiquette=100; 8 MPI_Status statut; 9 10 MPI_Init(&amp;argc,&amp;argv); 11 12 MPI_Comm_rank(MPI_COMM_WORLD,&amp;rang); 13 14 <strong>if</strong> (rang == 2) { 15 valeur = 1000; 16 MPI_Send(&amp;valeur,1,MPI_INT,5,etiquette,MPI_COMM_WORLD); 17 } <strong>else if</strong> ( rang == 5){ 18 MPI_Recv(&amp;valeur,1,MPI_INT,2,etiquette,MPI_COMM_WORLD,&amp;statut); 19 printf(“Moi, processus 5, ai recu %d du processus 2.”, valeur); 20 } 21 22 MPI_Finalize(); 23 }</p>
+<pre><code>&gt; mpiexec -n 7 point_a_point</code></pre>
+<pre><code>Moi, processus 5, ai recu 1000 du processus 2</code></pre>
+</section>
+</section>
+<section id="communications-point-à-point-3" class="level1">
+<h1>Communications point à point</h1>
+</section>
+<section id="travaux-pratiques-mpi-exercice-2-ping-pong" class="level1">
+<h1>Travaux pratiques MPI – Exercice 2 : Ping-pong</h1>
+<p>Communications point à point :Ping-Pongentre deux processus</p>
+<p>L’exercice 2 est décomposé en 3 étapes :</p>
+<ol type="1">
+<li>Ping: compléter le scriptping_pong_1.cde manière à ce que le processus de rang</li>
+</ol>
+<p>0 envoie un message contenant une série aléatoire de 1000 réels au rang 1.</p>
+<ol start="2" type="1">
+<li>Ping-Pong: compléter le scriptping_pong_2.cde manière à ce que le processus de</li>
+</ol>
+<p>rang 1 renvoie le message vers le processus de rang 0, et mesurer le temps pris par la</p>
+<p>communication à l’aide de la fonctionMPI_Wtime().</p>
+<ol start="3" type="1">
+<li>Match de Ping-Pong: compléter le scriptping_pong_3.cde manière à enchainer 9</li>
+</ol>
+<p>Ping-Pong, en faisant varier la taille du message, et mesurer les temps pris par chaque</p>
+<p>échange. Les débits correspondants seront affichés.</p>
+</section>
+<section id="communications-collectives" class="level1">
+<h1>Communications collectives</h1>
+<p>Notions générales</p>
+<p>Les communications collectives permettent de faire en une seule opération une série de communications point à point.</p>
+<p>Une communication collective concerne toujours tous les processus du communicateur indiqué.</p>
+<p>Pour chacun des processus, l’appel se termine lorsque la participation de celui-ci à l’opération collective est achevée, au sens des communications point-à-point (donc quand la zone mémoire concernée peut être modifiée). La gestion des étiquettes dans ces communications est transparente et à la charge du système. Elles ne sont donc jamais définies explicitement lors de l’appel à ces sous-programmes. Cela a entre autres pour avantage que les communications collectives n’interfèrent jamais avec les communications point à point.</p>
+</section>
+<section id="communications-collectives-1" class="level1">
+<h1>Communications collectives</h1>
+<p>Types de communications collectives</p>
+<p>Il y a trois types de sous-programmes :</p>
+<ol type="1">
+<li><p>celui qui assure les synchronisations globales :MPI_Barrier().</p></li>
+<li><p>ceux qui ne font que transférer des données :</p></li>
+</ol>
+<p>• diffusion globale de données :MPI_Bcast();</p>
+<p>• diffusion sélective de données :MPI_Scatter();</p>
+<p>• collecte de données réparties :MPI_Gather();</p>
+<p>• collecte par tous les processus de données réparties :MPI_Allgather();</p>
+<p>• collecte et diffusion sélective, par tous les processus, de données réparties :</p>
+<p>MPI_Alltoall().</p>
+<ol start="3" type="1">
+<li>ceux qui, en plus de la gestion des communications, effectuent des opérations sur</li>
+</ol>
+<p>les données transférées :</p>
+<p>• opérations de réduction (somme, produit, maximum, minimum, etc.), qu’elles soient</p>
+<p>d’un type prédéfini ou d’un type personnel :MPI_Reduce();</p>
+<p>• opérations de réduction avec diffusion du résultat (équivalent à unMPI_Reduce()</p>
+<p>suivi d’unMPI_Bcast()) :MPI_Allreduce().</p>
+</section>
+<section id="synchronisation-globale-mpi_barrier" class="level1">
+<h1>Synchronisation globale :MPI_Barrier()</h1>
+</section>
+<section id="diffusion-générale-mpi_bcast" class="level1">
+<h1>Diffusion générale :MPI_Bcast()</h1>
+<ol type="1">
+<li><p>Envoi, à partir de l’adresse message, d’un message constitué de longueur élément de type type_message, par le processus rang_source, à tous les autres processus du communicateur comm.</p></li>
+<li><p>Réception de ce message à l’adresse message pour les processus autre que rang_source.</p></li>
+</ol>
+</section>
+<section id="diffusion-sélective-mpi_scatter" class="level1">
+<h1>Diffusion sélective :MPI_Scatter()</h1>
+<ol type="1">
+<li><p>Distribution, par le processus rang_source, à partir de l’adresse message_a_repartir, d’un message de taille longueur_message_emis, de type type_message_emis, à tous les processus du communicateur comm ;</p></li>
+<li><p>réception du message à l’adresse message_recu, de longueur longueur_message_recu et de type type_message_recu par tous les processus du communicateur comm.</p></li>
+</ol>
+<p>Remarques :</p>
+<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales. Les données sont distribuées en tranches égales, une tranche étant constituée de longueur_message_emis éléments du type type_message_emis. La ième tranche est envoyée au ième processus.</p>
+</section>
+<section id="collecte-mpi_gather" class="level1">
+<h1>Collecte :MPI_Gather()</h1>
+<ol type="1">
+<li><p>Envoi de chacun des processus du communicateur comm, d’un message message_emis, de taille longueur_message_emis et de type type_message_emis.</p></li>
+<li><p>Collecte de chacun de ces messages, par le processus rang_dest, à partir l’adresse message_recu, sur une longueur longueur_message_recu et avec le type type_message_recu.</p></li>
+</ol>
+<p>Remarques :</p>
+<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
+<p>Les données sont collectées dans l’ordre des rangs des processus.</p>
+</section>
+<section id="collecte-générale-mpi_allgather" class="level1">
+<h1>Collecte générale :MPI_Allgather()</h1>
+<p>Correspond à unMPI_Gather()suivi d’unMPI_Bcast():</p>
+<ol type="1">
+<li><p>Envoi de chacun des processus du communicateur comm, d’un message message_emis, de taille longueur_message_emis et de type type_message_emis.</p></li>
+<li><p>Collecte de chacun de ces messages, par tous les processus, à partir l’adresse message_recu, sur une longueur longueur_message_recu et avec le type type_message_recu.</p></li>
+</ol>
+<p>Remarques :</p>
+<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
+<p>Les données sont collectées dans l’ordre des rangs des processus.</p>
+</section>
+<section id="collectes-et-diffusions-sélectives-mpi_alltoall" class="level1">
+<h1>Collectes et diffusions sélectives :MPI_Alltoall()</h1>
+<p>Ici, le ième processus envoie la jème tranche au jème processus qui le place à l’emplacement de la ième tranche.</p>
+<p>Remarque :</p>
+<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
+</section>
+<section id="réductions-réparties" class="level1">
+<h1>Réductions réparties</h1>
+<p>Une réduction est une opération appliquée à un ensemble d’éléments pour en obtenir une seule valeur. Des exemples typiques sont la somme des éléments d’un vecteur ou la recherche de l’élément de valeur maximum dans un vecteur</p>
+<p>MPI propose des sous-programmes de haut-niveau pour opérer des réductions sur des données réparties sur un ensemble de processus. Le résultat est obtenu sur un seul processus (MPI_Reduce()) ou bien sur tous (MPI_Allreduce(), qui est en fait équivalent à un MPI_Reduce()suivi d’unMPI_Bcast()). Si plusieurs éléments sont concernés par processus, la fonction de réduction est appliquée à chacun d’entre eux (par exemple à tous les éléments d’un vecteur).</p>
+</section>
+<section id="communications-collectives-mpi_reduce" class="level1">
+<h1>Communications collectives <code>MPI_Reduce()</code></h1>
+<p>Opérations pour réductions réparties</p>
+<ul>
+<li>MPI_SUM Somme des éléments</li>
+<li>MPI_PROD Produit des éléments</li>
+<li>MPI_MAX Recherche du maximum</li>
+<li>MPI_MIN Recherche du minimum</li>
+<li>MPI_MAXLOC Recherche de l’indice du maximum</li>
+<li>MPI_MINLOC Recherche de l’indice du minimum</li>
+<li>MPI_LAND ET logique</li>
+<li>MPI_LOR OU logique</li>
+<li>MPI_LXOR OU exclusif logique</li>
+</ul>
+</section>
+<section id="communications-collectives-mpi_allreduce" class="level1">
+<h1>Communications collectives <code>MPI_Allreduce</code></h1>
+<p>Réductions réparties avec diffusion du résultat :MPI_Allreduce()</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
