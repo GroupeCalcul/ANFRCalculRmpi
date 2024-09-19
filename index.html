@@ -222,6 +222,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="exemple-r" class="level1">
+<h1>Exemple R</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>hostname <span class="ot">&lt;-</span> <span class="fu">mpi.get.processor.name</span>()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>msg <span class="ot">&lt;-</span> <span class="fu">sprintf</span> (<span class="st">"Hello world from task %03d of %03d, on host %s </span><span class="sc">\n</span><span class="st">"</span>, id , np , hostname)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(msg)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpiexec <span class="at">-np</span> 4 Rscript hello_mpi.R</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host srv-mingus</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host srv-mingus</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host srv-mingus</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host srv-mingus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="mpi-exercice-1-environnement-mpi" class="level1">
 <h1>MPI – Exercice 1 : Environnement MPI</h1>
 <p>Implémenter un programme MPI dans lequel chaque processus affiche un message indiquant si son rang est pair ou impair. Par exemple :</p>
@@ -231,17 +250,12 @@ Moi, processus 2, je suis de rang pair
 Moi, processus 3, je suis de rang impair
 Moi, processus 1, je suis de rang impair</code></pre>
 </section>
-<section id="communications-point-à-point" class="level1">
-<h1>Communications point à point</h1>
+<section id="communications-point-à-point-mpi.send-et-mpi.recv" class="level1">
+<h1>Communications point à point <code>mpi.send</code> et <code>mpi.recv</code></h1>
 <p>Une communication dite point à point a lieu entre deux processus, l’un appelé processus émetteur et l’autre processus récepteur (ou destinataire). L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur. L’entité transmise entre deux processus est appelée message. Un message est caractérisé par son enveloppe. Celle-ci est constituée : - du rang du processus émetteur ; - du rang du processus récepteur ; - de l’étiquette (tag) du message ; - du communicateur qui définit le groupe de processus et le contexte de communication. - Les données échangées sont typées (entiers, réels, etc…)</p>
 <pre><code>int MPI_Send( const void *message, int longueur, MPI_Datatype type_message,
 int rang_dest, int etiquette, MPI_Comm comm)</code></pre>
 <p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.</p>
-</section>
-<section id="communications-point-à-point-1" class="level1">
-<h1>Communications point à point</h1>
-<section id="opération-de-réceptionmpi_recv" class="level2">
-<h2 class="anchored" data-anchor-id="opération-de-réceptionmpi_recv">Opération de réceptionMPI_Recv</h2>
 <pre><code>int MPI_Recv( void *message, int longueur, MPI_Datatype type_message,
 int rang_source, int etiquette,MPI_Comm comm, MPI_Status*status)</code></pre>
 <p>Réception, à partir de l’adresse message, d’un message de taille longueur, de type</p>
@@ -254,8 +268,7 @@ int rang_source, int etiquette,MPI_Comm comm, MPI_Status*status)</code></pre>
 <p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le</p>
 <p>contenu de message corresponde au message reçu.</p>
 </section>
-</section>
-<section id="communications-point-à-point-2" class="level1">
+<section id="communications-point-à-point" class="level1">
 <h1>Communications point à point</h1>
 <section id="exemple-voir-fig.-10" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-voir-fig.-10">Exemple (voir Fig. 10)</h2>
@@ -264,7 +277,7 @@ int rang_source, int etiquette,MPI_Comm comm, MPI_Status*status)</code></pre>
 <pre><code>Moi, processus 5, ai recu 1000 du processus 2</code></pre>
 </section>
 </section>
-<section id="communications-point-à-point-3" class="level1">
+<section id="communications-point-à-point-1" class="level1">
 <h1>Communications point à point</h1>
 </section>
 <section id="travaux-pratiques-mpi-exercice-2-ping-pong" class="level1">
