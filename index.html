@@ -247,15 +247,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Implémenter un programme MPI dans lequel chaque processus affiche un message indiquant si son rang est pair ou impair. Par exemple :</p>
 <pre><code>&gt; mpiexec -n 4 ./pair_impair
 Moi, processus 0, je suis de rang pair
+Moi, processus 1, je suis de rang impair
 Moi, processus 2, je suis de rang pair
-Moi, processus 3, je suis de rang impair
-Moi, processus 1, je suis de rang impair</code></pre>
+Moi, processus 3, je suis de rang impair</code></pre>
 </section>
 <section id="communications-point-à-point-mpi.send-et-mpi.recv" class="level1">
 <h1>Communications point à point <code>mpi.send</code> et <code>mpi.recv</code></h1>
 <p>Une communication dite point à point a lieu entre deux processus, l’un appelé processus émetteur et l’autre processus récepteur (ou destinataire). L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur. L’entité transmise entre deux processus est appelée message. Un message est caractérisé par son enveloppe. Celle-ci est constituée : - du rang du processus émetteur ; - du rang du processus récepteur ; - de l’étiquette (tag) du message ; - du communicateur qui définit le groupe de processus et le contexte de communication. - Les données échangées sont typées (entiers, réels, etc…)</p>
-<pre><code>int MPI_Send( const void *message, int longueur, MPI_Datatype type_message,
-int rang_dest, int etiquette, MPI_Comm comm)</code></pre>
+<pre><code></code></pre>
 <p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.</p>
 <pre><code>int MPI_Recv( void *message, int longueur, MPI_Datatype type_message,
 int rang_source, int etiquette,MPI_Comm comm, MPI_Status*status)</code></pre>
