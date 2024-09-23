@@ -312,25 +312,26 @@ Moi, processus 3, je suis de rang impair</code></pre>
 </section>
 <section id="communications-collectives" class="level1">
 <h1>Communications collectives</h1>
-<p>Notions générales</p>
+<section id="notions-générales" class="level2">
+<h2 class="anchored" data-anchor-id="notions-générales">Notions générales</h2>
 <p>Les communications collectives permettent de faire en une seule opération une série de communications point à point.</p>
 <p>Une communication collective concerne toujours tous les processus du communicateur indiqué.</p>
 <p>Pour chacun des processus, l’appel se termine lorsque la participation de celui-ci à l’opération collective est achevée, au sens des communications point-à-point (donc quand la zone mémoire concernée peut être modifiée). La gestion des étiquettes dans ces communications est transparente et à la charge du système. Elles ne sont donc jamais définies explicitement lors de l’appel à ces sous-programmes. Cela a entre autres pour avantage que les communications collectives n’interfèrent jamais avec les communications point à point.</p>
 </section>
-<section id="communications-collectives-1" class="level1">
-<h1>Communications collectives</h1>
-<p>Types de communications collectives</p>
+<section id="types-de-communications-collectives" class="level2">
+<h2 class="anchored" data-anchor-id="types-de-communications-collectives">Types de communications collectives</h2>
 <p>Il y a trois types de sous-programmes :</p>
 <ol type="1">
-<li><p>celui qui assure les synchronisations globales :MPI_Barrier().</p></li>
-<li><p>ceux qui ne font que transférer des données :</p></li>
+<li>celui qui assure les synchronisations globales :MPI_Barrier().</li>
+<li>ceux qui ne font que transférer des données :</li>
 </ol>
-<p>• diffusion globale de données :MPI_Bcast();</p>
-<p>• diffusion sélective de données :MPI_Scatter();</p>
-<p>• collecte de données réparties :MPI_Gather();</p>
-<p>• collecte par tous les processus de données réparties :MPI_Allgather();</p>
-<p>• collecte et diffusion sélective, par tous les processus, de données réparties :</p>
-<p>MPI_Alltoall().</p>
+<ul>
+<li>diffusion globale de données :MPI_Bcast();</li>
+<li>diffusion sélective de données :MPI_Scatter();</li>
+<li>collecte de données réparties :MPI_Gather();</li>
+<li>collecte par tous les processus de données réparties :MPI_Allgather();</li>
+<li>collecte et diffusion sélective, par tous les processus, de données réparties :</li>
+</ul>
 <ol start="3" type="1">
 <li>ceux qui, en plus de la gestion des communications, effectuent des opérations sur</li>
 </ol>
@@ -339,6 +340,7 @@ Moi, processus 3, je suis de rang impair</code></pre>
 <p>d’un type prédéfini ou d’un type personnel :MPI_Reduce();</p>
 <p>• opérations de réduction avec diffusion du résultat (équivalent à unMPI_Reduce()</p>
 <p>suivi d’unMPI_Bcast()) :MPI_Allreduce().</p>
+</section>
 </section>
 <section id="synchronisation-globale-mpi_barrier" class="level1">
 <h1>Synchronisation globale :MPI_Barrier()</h1>
