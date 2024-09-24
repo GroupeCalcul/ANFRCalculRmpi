@@ -81,14 +81,7 @@
     "href": "index.html",
     "title": "Rmpi",
     "section": "",
-    "text": "Site officiel de Rmpi\nSupports de cours MPI de l’IDRIS\nHow to run R programs on University of Maryland HPC facility\nDocumentation de GRICAD\nMPI Tutorial by Wes Kendall\nCRAN Task View: High-Performance and Parallel Computing with R\nR_note by Wei-Chen Chen"
-  },
-  {
-    "objectID": "index.html#bibliographie",
-    "href": "index.html#bibliographie",
-    "title": "Rmpi",
-    "section": "",
-    "text": "Site officiel de Rmpi\nSupports de cours MPI de l’IDRIS\nHow to run R programs on University of Maryland HPC facility\nDocumentation de GRICAD\nMPI Tutorial by Wes Kendall\nCRAN Task View: High-Performance and Parallel Computing with R\nR_note by Wei-Chen Chen"
+    "text": "Ces supports reprennent très largement les supports de cours MPI de l’IDRIS écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J’ai utilisé également les références suivantes:"
   },
   {
     "objectID": "index.html#introduction",
@@ -179,7 +172,7 @@
     "href": "index.html#exemple-r-mpmd",
     "title": "Rmpi",
     "section": "Exemple R MPMD",
-    "text": "Exemple R MPMD\n\nlibrary(Rmpi)\n\nmpi.spawn.Rslaves(nslaves = 4, needlog = FALSE)\n\nmpi.bcast.cmd( id &lt;- mpi.comm.rank() )\nmpi.bcast.cmd( np &lt;- mpi.comm.size() )\nmpi.bcast.cmd( host &lt;- mpi.get.processor.name() )\nresult &lt;- mpi.remote.exec(paste(\"I am\", id, \"of\", np, \"running on\", host)) \n\nprint(unlist(result))\n\nmpi.close.Rslaves(dellog = FALSE)\nmpi.exit()\n$ Rscript hello_mpmd.R\n4 slaves are spawned successfully. 0 failed.\nmaster (rank 0, comm 1) of size 5 is running on: sr036124\nslave1 (rank 1, comm 1) of size 5 is running on: sr036124\nslave2 (rank 2, comm 1) of size 5 is running on: sr036124\nslave3 (rank 3, comm 1) of size 5 is running on: sr036124\nslave4 (rank 4, comm 1) of size 5 is running on: sr036124"
+    "text": "Exemple R MPMD\n\nlibrary(Rmpi)\n\nmpi.spawn.Rslaves(nslaves = 4, needlog = FALSE)\n\nmpi.bcast.cmd( id &lt;- mpi.comm.rank() )\nmpi.bcast.cmd( np &lt;- mpi.comm.size() )\nmpi.bcast.cmd( host &lt;- mpi.get.processor.name() )\nresult &lt;- mpi.remote.exec(paste(\"I am\", id, \"of\", np, \"running on\", host)) \n\nprint(unlist(result))\n\nmpi.close.Rslaves(dellog = FALSE)\nmpi.exit()\n$ Rscript hello_mpmd.R\n4 slaves are spawned successfully. 0 failed.\nmaster (rank 0, comm 1) of size 5 is running on: sr036124\nslave1 (rank 1, comm 1) of size 5 is running on: sr036124\nslave2 (rank 2, comm 1) of size 5 is running on: sr036124\nslave3 (rank 3, comm 1) of size 5 is running on: sr036124\nslave4 (rank 4, comm 1) of size 5 is running on: sr036124\n\n\n\n\n\n\nAvertissement\n\n\n\nJe n’ai pas réussi à faire tourner cet exemple dans l’environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu r-cran-rmpi."
   },
   {
     "objectID": "index.html#spmd-vs-mpmd",

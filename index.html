@@ -157,8 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#bibliographie" id="toc-bibliographie" class="nav-link active" data-scroll-target="#bibliographie">Bibliographie</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#léchange-de-messages" id="toc-léchange-de-messages" class="nav-link" data-scroll-target="#léchange-de-messages">L’échange de messages</a></li>
   <li><a href="#architecture-des-supercalculateurs" id="toc-architecture-des-supercalculateurs" class="nav-link" data-scroll-target="#architecture-des-supercalculateurs">Architecture des supercalculateurs</a></li>
   <li><a href="#mpi-vs-openmp" id="toc-mpi-vs-openmp" class="nav-link" data-scroll-target="#mpi-vs-openmp">MPI vs OpenMP</a></li>
@@ -205,18 +204,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="bibliographie" class="level2">
-<h2 class="anchored" data-anchor-id="bibliographie">Bibliographie</h2>
+<p>Ces supports reprennent très largement les <a href="http://www.idris.fr/formations/mpi/">supports de cours MPI de l’IDRIS</a> écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J’ai utilisé également les références suivantes:</p>
 <ul>
 <li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Site officiel de Rmpi</a></li>
-<li><a href="http://www.idris.fr/formations/mpi/">Supports de cours MPI de l’IDRIS</a></li>
 <li><a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/">How to run R programs on University of Maryland HPC facility</a></li>
 <li><a href="https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages">Documentation de GRICAD</a></li>
 <li><a href="https://mpitutorial.com">MPI Tutorial by Wes Kendall</a></li>
 <li><a href="https://cran.r-project.org/web/views/HighPerformanceComputing.html">CRAN Task View: High-Performance and Parallel Computing with R</a></li>
 <li><a href="https://snoweye.github.io/R_note/inc_menu/Rmpi.html">R_note by Wei-Chen Chen</a></li>
 </ul>
-</section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>L’utilisation de la bibliothèque MPI permet d’exploiter le parallélisme des ordinateurs en utilisant le paradigme de l’échange de messages.</p>
@@ -443,6 +439,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">slave2</span> <span class="er">(</span><span class="ex">rank</span> 2, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="ex">slave3</span> <span class="er">(</span><span class="ex">rank</span> 3, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ex">slave4</span> <span class="er">(</span><span class="ex">rank</span> 4, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Avertissement
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Je n’ai pas réussi à faire tourner cet exemple dans l’environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu <code>r-cran-rmpi</code>.</p>
+</div>
+</div>
 </section>
 <section id="spmd-vs-mpmd" class="level2">
 <h2 class="anchored" data-anchor-id="spmd-vs-mpmd">SPMD vs MPMD</h2>
