@@ -100,10 +100,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="bibliographie" class="level1">
 <h1>Bibliographie</h1>
 <ul>
-<li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Rmpi</a></li>
-<li><a href="http://www.idris.fr/formations/mpi/">Supports de cours MPI</a> Dimitri Lecas - Rémi Lacroix - Serge Van Criekingen - Myriam Peyrounette CNRS — IDRIS</li>
+<li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Site officiel de Rmpi</a></li>
+<li><a href="http://www.idris.fr/formations/mpi/">Supports de cours MPI de l’IDRIS</a></li>
 <li><a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/">How to run R programs on University of Maryland HPC facility</a></li>
 <li><a href="https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages">Documentation de GRICAD</a></li>
+<li><a href="https://mpitutorial.com">MPI Tutorial by Wes Kendall</a></li>
+<li><a href="https://cran.r-project.org/web/views/HighPerformanceComputing.html">CRAN Task View: High-Performance and Parallel Computing with R</a></li>
 </ul>
 </section>
 <section id="introduction" class="level1">
@@ -334,101 +336,159 @@ Moi, processus 3, je suis de rang impair</code></pre>
 <h2 class="anchored" data-anchor-id="notions-générales">Notions générales</h2>
 <p>Les communications collectives permettent de faire en une seule opération une série de communications point à point.</p>
 <p>Une communication collective concerne toujours tous les processus du communicateur indiqué.</p>
-<p>Pour chacun des processus, l’appel se termine lorsque la participation de celui-ci à l’opération collective est achevée, au sens des communications point-à-point (donc quand la zone mémoire concernée peut être modifiée). La gestion des étiquettes dans ces communications est transparente et à la charge du système. Elles ne sont donc jamais définies explicitement lors de l’appel à ces sous-programmes. Cela a entre autres pour avantage que les communications collectives n’interfèrent jamais avec les communications point à point.</p>
+<p>Pour chacun des processus, l’appel se termine lorsque la participation de celui-ci à l’opération collective est achevée, au sens des communications point-à-point (donc quand la zone mémoire concernée peut être modifiée).</p>
+<p>La gestion des étiquettes dans ces communications est transparente et à la charge du système. Elles ne sont donc jamais définies explicitement lors de l’appel à ces sous-programmes. Cela a entre autres pour avantage que les communications collectives n’interfèrent jamais avec les communications point à point.</p>
 </section>
 <section id="types-de-communications-collectives" class="level2">
 <h2 class="anchored" data-anchor-id="types-de-communications-collectives">Types de communications collectives</h2>
 <p>Il y a trois types de sous-programmes :</p>
 <ol type="1">
-<li>celui qui assure les synchronisations globales :MPI_Barrier().</li>
+<li>celui qui assure les synchronisations globales : <code>mpi.barrier(comm=0)</code>.</li>
 <li>ceux qui ne font que transférer des données :</li>
 </ol>
 <ul>
-<li>diffusion globale de données :MPI_Bcast();</li>
-<li>diffusion sélective de données :MPI_Scatter();</li>
-<li>collecte de données réparties :MPI_Gather();</li>
-<li>collecte par tous les processus de données réparties :MPI_Allgather();</li>
-<li>collecte et diffusion sélective, par tous les processus, de données réparties :</li>
+<li>diffusion globale de données : <code>mpi.bcast</code></li>
+<li>diffusion sélective de données : <code>mpi.scatter</code></li>
+<li>collecte de données réparties : <code>mpi.gather</code></li>
+<li>collecte par tous les processus de données réparties : <code>mpi.allgather</code></li>
 </ul>
 <ol start="3" type="1">
-<li>ceux qui, en plus de la gestion des communications, effectuent des opérations sur</li>
+<li>ceux qui, en plus de la gestion des communications, effectuent des opérations sur les données transférées :</li>
 </ol>
-<p>les données transférées :</p>
-<p>• opérations de réduction (somme, produit, maximum, minimum, etc.), qu’elles soient</p>
-<p>d’un type prédéfini ou d’un type personnel :MPI_Reduce();</p>
-<p>• opérations de réduction avec diffusion du résultat (équivalent à unMPI_Reduce()</p>
-<p>suivi d’unMPI_Bcast()) :MPI_Allreduce().</p>
+<ul>
+<li>opérations de réduction (somme, produit, maximum, minimum, etc.), qu’elles soient d’un type prédéfini ou d’un type personnel : <code>mpi.reduce</code></li>
+<li>opérations de réduction avec diffusion du résultat <code>mpi.reduce</code> suivi d’un <code>mpi.bcast</code></li>
+</ul>
 </section>
-</section>
-<section id="synchronisation-globale-mpi_barrier" class="level1">
-<h1>Synchronisation globale :MPI_Barrier()</h1>
-</section>
-<section id="diffusion-générale-mpi_bcast" class="level1">
-<h1>Diffusion générale :MPI_Bcast()</h1>
+<section id="diffusion-générale-mpi.bcast" class="level2">
+<h2 class="anchored" data-anchor-id="diffusion-générale-mpi.bcast">Diffusion générale <code>mpi.bcast</code></h2>
 <ol type="1">
-<li><p>Envoi, à partir de l’adresse message, d’un message constitué de longueur élément de type type_message, par le processus rang_source, à tous les autres processus du communicateur comm.</p></li>
-<li><p>Réception de ce message à l’adresse message pour les processus autre que rang_source.</p></li>
+<li><p>Envoi, à partir de l’adresse message, d’un message constitué de longueur élément de type <code>type_message</code>, par le processus <code>rank</code>, à tous les autres processus du communicateur <code>comm</code>.</p></li>
+<li><p>Réception de ce message à l’adresse message pour les processus autre que <code>rank</code>.</p></li>
 </ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Diffusion du vecteur v sur les processeurs autre que 0</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mpi.bcast.Robj</span>(<span class="at">obj =</span> v, <span class="at">rank =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">mpi.bcast.Robj</span>(<span class="at">rank =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"vector on "</span>, id, <span class="st">" = "</span>,  v, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span> )</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript bcast.R</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  3  =  1 2 3 4</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  2  =  1 2 3 4</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  1  =  1 2 3 4</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  0  =  1 2 3 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="diffusion-sélective-mpi_scatter" class="level1">
-<h1>Diffusion sélective :MPI_Scatter()</h1>
-<ol type="1">
-<li><p>Distribution, par le processus rang_source, à partir de l’adresse message_a_repartir, d’un message de taille longueur_message_emis, de type type_message_emis, à tous les processus du communicateur comm ;</p></li>
-<li><p>réception du message à l’adresse message_recu, de longueur longueur_message_recu et de type type_message_recu par tous les processus du communicateur comm.</p></li>
-</ol>
-<p>Remarques :</p>
-<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales. Les données sont distribuées en tranches égales, une tranche étant constituée de longueur_message_emis éléments du type type_message_emis. La ième tranche est envoyée au ième processus.</p>
 </section>
-<section id="collecte-mpi_gather" class="level1">
-<h1>Collecte :MPI_Gather()</h1>
+<section id="diffusion-sélective-mpi.scatter" class="level1">
+<h1>Diffusion sélective <code>mpi.scatter</code></h1>
+<p>La ième tranche est envoyée au ième processus.</p>
+<p><img src="broadcastvsscatter.png" class="img-fluid"></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,<span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    splitmatrix <span class="ot">=</span> <span class="cf">function</span>(x, ncl) <span class="fu">lapply</span>(<span class="fu">.splitIndices</span>(<span class="fu">nrow</span>(x), ncl), <span class="cf">function</span>(i) x[i,])</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    chunk <span class="ot">=</span> <span class="fu">splitmatrix</span>(data, np)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>chunk <span class="ot">&lt;-</span> <span class="fu">mpi.scatter.Robj</span>(<span class="at">obj =</span> chunk, <span class="at">root =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"data on "</span>, id, <span class="st">":"</span>, chunk, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript scatter.R</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  0 : 1 2 9 10 17 18</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  3 : 7 8 15 16 23 24</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  2 : 5 6 13 14 21 22</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  1 : 3 4 11 12 19 20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="collecte-mpi.gather" class="level1">
+<h1>Collecte <code>mpi.gather</code></h1>
+<p><img src="gather.png" class="img-fluid"></p>
 <ol type="1">
-<li><p>Envoi de chacun des processus du communicateur comm, d’un message message_emis, de taille longueur_message_emis et de type type_message_emis.</p></li>
-<li><p>Collecte de chacun de ces messages, par le processus rang_dest, à partir l’adresse message_recu, sur une longueur longueur_message_recu et avec le type type_message_recu.</p></li>
+<li>Envoi d’un message de chacun des processus du communicateur <code>comm</code></li>
+<li>Collecte de chacun de ces messages, par le processus <code>root</code></li>
 </ol>
-<p>Remarques :</p>
-<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
 <p>Les données sont collectées dans l’ordre des rangs des processus.</p>
 </section>
-<section id="collecte-générale-mpi_allgather" class="level1">
-<h1>Collecte générale :MPI_Allgather()</h1>
-<p>Correspond à unMPI_Gather()suivi d’unMPI_Bcast():</p>
-<ol type="1">
-<li><p>Envoi de chacun des processus du communicateur comm, d’un message message_emis, de taille longueur_message_emis et de type type_message_emis.</p></li>
-<li><p>Collecte de chacun de ces messages, par tous les processus, à partir l’adresse message_recu, sur une longueur longueur_message_recu et avec le type type_message_recu.</p></li>
-</ol>
-<p>Remarques :</p>
-<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
-<p>Les données sont collectées dans l’ordre des rangs des processus.</p>
-</section>
-<section id="collectes-et-diffusions-sélectives-mpi_alltoall" class="level1">
-<h1>Collectes et diffusions sélectives :MPI_Alltoall()</h1>
-<p>Ici, le ième processus envoie la jème tranche au jème processus qui le place à l’emplacement de la ième tranche.</p>
-<p>Remarque :</p>
-<p>Les couples (longueur_message_emis, type_message_emis) et (longueur_message_recu, type_message_recu) doivent être tels que les quantités de données envoyées et reçues soient égales.</p>
+<section id="collecte-générale-mpi.allgather" class="level1">
+<h1>Collecte générale <code>mpi.allgather</code></h1>
+<p>Correspond à un <code>mpi.gather</code> suivi d’un <code>mpi.bcast</code></p>
+<p><img src="allgather.png" class="img-fluid"></p>
 </section>
 <section id="réductions-réparties" class="level1">
 <h1>Réductions réparties</h1>
 <p>Une réduction est une opération appliquée à un ensemble d’éléments pour en obtenir une seule valeur. Des exemples typiques sont la somme des éléments d’un vecteur ou la recherche de l’élément de valeur maximum dans un vecteur</p>
 <p>MPI propose des sous-programmes de haut-niveau pour opérer des réductions sur des données réparties sur un ensemble de processus. Le résultat est obtenu sur un seul processus (MPI_Reduce()) ou bien sur tous (MPI_Allreduce(), qui est en fait équivalent à un MPI_Reduce()suivi d’unMPI_Bcast()). Si plusieurs éléments sont concernés par processus, la fonction de réduction est appliquée à chacun d’entre eux (par exemple à tous les éléments d’un vecteur).</p>
 </section>
-<section id="communications-collectives-mpi_reduce" class="level1">
-<h1>Communications collectives <code>MPI_Reduce()</code></h1>
+<section id="communications-collectives-mpi.reduce" class="level1">
+<h1>Communications collectives <code>mpi.reduce</code></h1>
 <p>Opérations pour réductions réparties</p>
 <ul>
-<li>MPI_SUM Somme des éléments</li>
-<li>MPI_PROD Produit des éléments</li>
-<li>MPI_MAX Recherche du maximum</li>
-<li>MPI_MIN Recherche du minimum</li>
-<li>MPI_MAXLOC Recherche de l’indice du maximum</li>
-<li>MPI_MINLOC Recherche de l’indice du minimum</li>
-<li>MPI_LAND ET logique</li>
-<li>MPI_LOR OU logique</li>
-<li>MPI_LXOR OU exclusif logique</li>
+<li>“sum” Somme des éléments</li>
+<li>“prod” Produit des éléments</li>
+<li>“max” Recherche du maximum</li>
+<li>“min” Recherche du minimum</li>
+<li>“maxloc” Recherche de l’indice du maximum</li>
+<li>“minloc” Recherche de l’indice du minimum</li>
 </ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,<span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    splitmatrix <span class="ot">=</span> <span class="cf">function</span>(x, ncl) <span class="fu">lapply</span>(<span class="fu">.splitIndices</span>(<span class="fu">nrow</span>(x), ncl), <span class="cf">function</span>(i) x[i,])</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    chunk <span class="ot">=</span> <span class="fu">splitmatrix</span>(data, np)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>chunk <span class="ot">&lt;-</span> <span class="fu">mpi.scatter.Robj</span>(<span class="at">obj =</span> chunk, <span class="at">root =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"data on "</span>, id, <span class="st">":"</span>, chunk, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">mpi.reduce</span>(chunk, <span class="at">type=</span><span class="dv">1</span>, <span class="at">op=</span><span class="st">"sum"</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>) </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ( id <span class="sc">==</span> <span class="dv">0</span> ) {</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, res, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript reduce.R</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  2 : 5 6 13 14 21 22</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  3 : 7 8 15 16 23 24</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  0 : 1 2 9 10 17 18</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on  1 : 3 4 11 12 19 20</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="ex">16</span> 20 48 52 80 84</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="communications-collectives-mpi_allreduce" class="level1">
-<h1>Communications collectives <code>MPI_Allreduce</code></h1>
-<p>Réductions réparties avec diffusion du résultat :MPI_Allreduce()</p>
+<section id="recommendations-pour-utiliser-mpi" class="level1">
+<h1>Recommendations pour utiliser MPI</h1>
+<ul>
+<li>Le modèle <strong>SPMD</strong> fonctionne mieux sur les clusters de calcul que le modèle <strong>SPMD</strong></li>
+<li>Limiter au maximum les messages avec un grand volumes de données</li>
+<li>Limiter l’empreinte mémoire en divisant les calculs mais aussi en divisant la mémoire.</li>
+<li>Il est parfois plus intéressant de faire le même calcul sur tous les processus que de le faire sur un seul et ensuite faire une diffusion</li>
+<li>Eviter de lire des données en parallèle. Lire le fichier sur le processeur 0 puis faire un <code>bcast</code> ou mieux un <code>scatter</code></li>
+<li>Essayer d’équilibrer la charge sur vos processus</li>
+<li>Jeter un oeil à <a href="https://github.com/RBigData/pbdMPI">pdbMPI</a></li>
+</ul>
 </section>
 
 </main>
