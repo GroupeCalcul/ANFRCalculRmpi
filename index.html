@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
@@ -87,17 +87,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
   }
 }</script>
 
@@ -118,8 +118,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">ANF R Calcul Rmpi</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -154,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
   <li><a href="#bibliographie" id="toc-bibliographie" class="nav-link active" data-scroll-target="#bibliographie">Bibliographie</a></li>
@@ -174,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#spmd-vs-mpmd" id="toc-spmd-vs-mpmd" class="nav-link" data-scroll-target="#spmd-vs-mpmd">SPMD vs MPMD</a></li>
   <li><a href="#mpi-exercice-1-environnement-mpi" id="toc-mpi-exercice-1-environnement-mpi" class="nav-link" data-scroll-target="#mpi-exercice-1-environnement-mpi">MPI – Exercice 1 : Environnement MPI</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -196,7 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 <div>
   <div class="abstract">
-    <div class="block-title">Abstract</div>
+    <div class="block-title">Résumé</div>
     Supports pour apprendre à utiliser la bibliothèque MPI avec R et le package Rmpi. Cette formation a été dispensée lors de l’Action Nationale de Formation <a href="https://indico.mathrice.fr/event/536/">R pour le calcul</a> à Fréjus du 23 au 27 septembre 2024
   </div>
 </div>
@@ -304,18 +304,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Finalize the MPI environment.</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    MPI_Finalize<span class="op">();</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="compilation-et-exécution-dun-code-mpi-en-c" class="level2">
 <h2 class="anchored" data-anchor-id="compilation-et-exécution-dun-code-mpi-en-c">Compilation et exécution d’un code MPI en C</h2>
 <p>Pour compiler un code MPI, il faut faire le lien avec la librairie MPI utilisée en utilisant par exemple <code>mpicc</code></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpicc <span class="ex">hello_mpi.c</span> <span class="at">-o</span> hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpicc <span class="ex">hello_mpi.c</span> <span class="at">-o</span> hello</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Pour exécuter un code MPI, on utilise un lanceur d’application MPI qui ordonne le lancement de l’exécution sur un nombre de processus choisi. Le lanceur défini par la norme MPI est <code>mpiexec</code>. Il existe également des lanceurs non standards, comme <code>mpirun</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 ./hello</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 2 out of 4 processors</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 3 out of 4 processors</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 1 out of 4 processors</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 0 out of 4 processors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 0 out of 4 processors</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exemple-python" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-python">Exemple Python</h2>
@@ -328,12 +328,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>rank <span class="op">=</span> MPI.COMM_WORLD.Get_rank()</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> MPI.Get_processor_name()</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>println(<span class="ss">f"Hello, World! I am process </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>size<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>println(<span class="ss">f"Hello, World! I am process </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>size<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 python hello_mpi.py                     </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exemple-r-spmd" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-spmd">Exemple R SPMD</h2>
@@ -348,15 +348,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(msg)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Installation de l’environnement logiciel</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda create <span class="at">-y</span> <span class="at">-n</span> rmpi r-rmpi <span class="at">-c</span> conda-forge</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda activate rmpi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda activate rmpi</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpiexec <span class="at">-np</span> 4 Rscript hello_mpi.R</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host srv-mingus</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host srv-mingus</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host srv-mingus</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host srv-mingus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host srv-mingus</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exécution-sur-le-cluster-perseus" class="level2">
 <h2 class="anchored" data-anchor-id="exécution-sur-le-cluster-perseus">Exécution sur le cluster perseus</h2>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-y</span> <span class="at">-n</span> rmpi r-rmpi <span class="at">-c</span> conda-forge</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate rmpi</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/GroupeCalcul/ANFRCalculRmpi</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ANFRCalculRmpi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ANFRCalculRmpi</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>fichier <code>hello_mpi.sh</code> nécessaire à l’utilisation d’<a href="https://oar.imag.fr">OAR</a></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">##!/bin/bash</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR --project pr-groupecalcul</span></span>
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">## Run the program</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate rmpi</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ce script doit être exécutable</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod +x hello_mpi.sh</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> hello_mpi.sh</span>
@@ -393,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ex">[ADMISSION</span> RULE] Modify resource description with type constraints</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="ex">[ADMISSION</span> RULE] Found job type <span class="pp">[</span><span class="ss">verysmall</span><span class="pp">]</span></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ex">[ADMISSION</span> RULE] Automatically add job type <span class="pp">[</span><span class="ss">verysmall</span><span class="pp">]</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="va">OAR_JOB_ID</span><span class="op">=</span>26118495</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="va">OAR_JOB_ID</span><span class="op">=</span>26118495</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> oarstat <span class="at">-u</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Job</span> id    S User     Duration   System message</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">---------</span> <span class="at">-</span> <span class="at">--------</span> <span class="at">----------</span> <span class="at">------------------------------------------------</span></span>
@@ -409,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> oarstat <span class="at">-u</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Job</span> id    S User     Duration   System message</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ex">---------</span> <span class="at">-</span> <span class="at">--------</span> <span class="at">----------</span> <span class="at">------------------------------------------------</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ex">26118496</span>  F navarop-    0:00:18 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous<span class="kw">|</span><span class="ex">verysmall</span> <span class="er">(</span><span class="va">Karma</span><span class="op">=</span>0.004,quota_ok<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ex">26118496</span>  F navarop-    0:00:18 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous<span class="kw">|</span><span class="ex">verysmall</span> <span class="er">(</span><span class="va">Karma</span><span class="op">=</span>0.004,quota_ok<span class="kw">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat hello_mpi.out</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 3 out of 4 processors</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 2 out of 4 processors</span>
@@ -418,14 +418,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host dahu146</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host dahu146</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host dahu146</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host dahu146</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host dahu146</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exemple-r-mpmd" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-mpmd">Exemple R MPMD</h2>
 <p><img src="mpmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">3</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">4</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>() )</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>() )</span>
@@ -435,11 +435,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">unlist</span>(result))</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.close.Rslaves</span>(<span class="at">dellog =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.exit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> Rscript hello_mpmd.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.exit</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> Rscript hello_mpmd.R</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">4</span> slaves are spawned successfully. 0 failed.</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">master</span> <span class="er">(</span><span class="ex">rank</span> 0, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">slave1</span> <span class="er">(</span><span class="ex">rank</span> 1, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">slave2</span> <span class="er">(</span><span class="ex">rank</span> 2, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="ex">slave3</span> <span class="er">(</span><span class="ex">rank</span> 3, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ex">slave4</span> <span class="er">(</span><span class="ex">rank</span> 4, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="spmd-vs-mpmd" class="level2">
 <h2 class="anchored" data-anchor-id="spmd-vs-mpmd">SPMD vs MPMD</h2>
+<p>On retrouve plus d’exemples utilisant la méthode MPMD mais cette forme de parallélisation est plus difficile à faire fonctionner et semble moins rapide (voir <a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/#heading_toc_j_7">ici</a>)</p>
 <ul>
 <li>Plus proche du code séquentiel, c’est-à-dire que le SPMD est plus facile à coder à partir de la version séquentielle</li>
 <li>Plus court que la version MPMD, donc moins d’erreurs potentielles.</li>
@@ -503,12 +510,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copié");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -885,4 +892,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div></div></footer></body></html>

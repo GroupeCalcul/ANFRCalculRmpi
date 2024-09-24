@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
@@ -87,17 +87,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
   }
 }</script>
 
@@ -118,8 +118,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">ANF R Calcul Rmpi</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -154,13 +154,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
   <li><a href="#recommendations-pour-utiliser-mpi" id="toc-recommendations-pour-utiliser-mpi" class="nav-link active" data-scroll-target="#recommendations-pour-utiliser-mpi">Recommendations pour utiliser MPI</a></li>
   <li><a href="#exercice" id="toc-exercice" class="nav-link" data-scroll-target="#exercice">Exercice</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/exercice.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/exercice.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -187,75 +187,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="recommendations-pour-utiliser-mpi" class="level2">
 <h2 class="anchored" data-anchor-id="recommendations-pour-utiliser-mpi">Recommendations pour utiliser MPI</h2>
 <ul>
-<li>Le modèle <strong>SPMD</strong> fonctionne mieux sur les clusters de calcul que le modèle <strong>SPMD</strong></li>
-<li>Limiter au maximum les messages avec un grand volumes de données</li>
+<li>Le modèle <strong>SPMD</strong> fonctionne mieux sur les clusters de calcul que le modèle <strong>MPMD</strong></li>
+<li>On supprime le surcoût des lancements de processus dans le programme principal.</li>
+<li>Limiter au maximum les messages avec un grand volume de données</li>
 <li>Limiter l’empreinte mémoire en divisant les calculs mais aussi en divisant la mémoire.</li>
 <li>Il est parfois plus intéressant de faire le même calcul sur tous les processus que de le faire sur un seul et ensuite faire une diffusion</li>
 <li>Eviter de lire des données en parallèle si vous n’utilisez pas une bibliothèque dédiée (MPI-IO). Lire le fichier sur le processeur 0 puis faire un <code>bcast</code> ou mieux un <code>scatter</code>.</li>
 <li>Essayer d’équilibrer la charge sur vos processus</li>
 <li>Jeter un oeil à <a href="https://github.com/RBigData/pbdMPI">pdbMPI</a></li>
 </ul>
+<p>Cet exemple crée autant de vecteurs que de processus initialisés à la valeur du rang. Ces vecteurs sont collectés dans une matrice construite à partir de ces colonnes.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pbdMPI, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>.comm.size <span class="ot">&lt;-</span> <span class="fu">comm.size</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>.comm.rank <span class="ot">&lt;-</span> <span class="fu">comm.rank</span>()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>msg <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"Hello world from process %d</span><span class="sc">\n</span><span class="st">"</span>, .comm.rank)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.cat</span>(<span class="st">"Say hello:</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.cat</span>(msg, <span class="at">all.rank =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(.comm.rank, k)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Original x vector:</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.print</span>(x, <span class="at">all.rank =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">allgather</span>(x, <span class="at">unlist =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(y, <span class="at">nrow =</span> k, <span class="at">byrow =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Allgather matrix (only showing process 0):</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.print</span>(A)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">finalize</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exercice" class="level2">
 <h2 class="anchored" data-anchor-id="exercice">Exercice</h2>
 <p>On veut paralléliser l’exemple suivant avec Rmpi</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my.loop <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> m.dim<span class="sc">$</span>nrow, <span class="at">ncol =</span> m.dim<span class="sc">$</span>ncol)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.loop){</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(m))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">-</span> start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>my.loop <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> m.dim<span class="sc">$</span>nrow, <span class="at">ncol =</span> m.dim<span class="sc">$</span>ncol)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.loop){</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(m))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">-</span> start</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Voici la version MPMD, essayer d’en faire une version SPMD et comparer les performances.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>loop.fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> m.dim<span class="sc">$</span>nrow, <span class="at">ncol =</span> m.dim<span class="sc">$</span>ncol)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(m))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>call.mpi.master <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(Rmpi)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.spawn.Rslaves</span>(<span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj2slave</span>(call.mpi.slave)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.cmd</span>(<span class="fu">call.mpi.slave</span>())</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj</span>(loop.fun)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  my.size <span class="ot">&lt;-</span> <span class="fu">mpi.universe.size</span>()</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="dv">20</span> </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  my.split <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">loop =</span> <span class="dv">1</span> <span class="sc">:</span> my.loop,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rank =</span> <span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">:</span> my.size, my.loop <span class="sc">%/%</span> my.size),</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">if</span>(my.loop <span class="sc">%%</span> my.size <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                                (my.size <span class="sc">:</span> <span class="dv">2</span>)[<span class="dv">1</span> <span class="sc">:</span> (my.loop <span class="sc">%%</span> my.size)])))</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mpi.send.Robj</span>(my.split<span class="sc">$</span>loop[my.split<span class="sc">$</span>rank <span class="sc">==</span> i], <span class="at">dest =</span> i, <span class="at">tag =</span> <span class="dv">1</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">mpi.recv</span>(<span class="fu">integer</span>(<span class="dv">1</span>), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">source =</span> i, <span class="at">tag =</span> <span class="dv">2</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  ret</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>call.mpi.slave <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  loop.fun <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">mpi.bcast.Robj</span>())</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="fu">mpi.recv.Robj</span>(<span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">1</span>)</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> my.loop){</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">loop.fun</span>()</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.send</span>(<span class="fu">as.integer</span>(ret), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">2</span>)</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="fu">call.mpi.master</span>()</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">-</span> start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>loop.fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> m.dim<span class="sc">$</span>nrow, <span class="at">ncol =</span> m.dim<span class="sc">$</span>ncol)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(m))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>call.mpi.master <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(Rmpi)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.spawn.Rslaves</span>(<span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj2slave</span>(call.mpi.slave)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.cmd</span>(<span class="fu">call.mpi.slave</span>())</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj</span>(loop.fun)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  my.size <span class="ot">&lt;-</span> <span class="fu">mpi.universe.size</span>()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="dv">20</span> </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  my.split <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">loop =</span> <span class="dv">1</span> <span class="sc">:</span> my.loop,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rank =</span> <span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">:</span> my.size, my.loop <span class="sc">%/%</span> my.size),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">if</span>(my.loop <span class="sc">%%</span> my.size <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                                (my.size <span class="sc">:</span> <span class="dv">2</span>)[<span class="dv">1</span> <span class="sc">:</span> (my.loop <span class="sc">%%</span> my.size)])))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mpi.send.Robj</span>(my.split<span class="sc">$</span>loop[my.split<span class="sc">$</span>rank <span class="sc">==</span> i], <span class="at">dest =</span> i, <span class="at">tag =</span> <span class="dv">1</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">mpi.recv</span>(<span class="fu">integer</span>(<span class="dv">1</span>), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">source =</span> i, <span class="at">tag =</span> <span class="dv">2</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  ret</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>call.mpi.slave <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  loop.fun <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">mpi.bcast.Robj</span>())</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="fu">mpi.recv.Robj</span>(<span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">1</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> my.loop){</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">loop.fun</span>()</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.send</span>(<span class="fu">as.integer</span>(ret), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">2</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="fu">call.mpi.master</span>()</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">-</span> start</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -304,12 +326,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copié");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -686,4 +708,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/exercice.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/exercice.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div></div></footer></body></html>
