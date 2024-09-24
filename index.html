@@ -230,6 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Toutes les variables sont privées et résident dans la mémoire locale allouée à chaque processus.</li>
 <li>Chaque processus exécute éventuellement des parties différentes d’un programme.</li>
 <li>Une donnée est échangée entre deux ou plusieurs processus via des appels de fonctions.</li>
+<li>Pour les langages ne disposant pas de récupérateur de mémoire, la taille sera également nécessaire (C, Fortran)</li>
 </ul>
 </section>
 <section id="léchange-de-messages" class="level2">
@@ -253,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="historique" class="level2">
 <h2 class="anchored" data-anchor-id="historique">Historique</h2>
 <ul>
-<li>Version 1.0 : en juin 1994, le forum MPI, avec la participation d’une quarantaine d’organisations, aboutit à la définition d’un ensemble de sous-programmes concernant la bibliothèque d’échanges de messagesMPI</li>
+<li>Version 1.0 : en juin 1994, le forum MPI, avec la participation d’une quarantaine d’organisations, aboutit à la définition d’un ensemble de sous-programmes concernant la bibliothèque d’échanges de messages MPI</li>
 <li>Version 2.0 : apparue en juillet 1997, cette version apportait des compléments importants volontairement non intégrés dans MPI 1.0 (gestion dynamique de processus, copies mémoire à mémoire, entrées-sorties parallèles, etc.)</li>
 <li>Version 3.0 : septembre 2012, cette version apportait les communications collectives non bloquantes, nouvelle interface Fortran, etc.</li>
 <li>Version 4.0 : juin 2021</li>
@@ -407,8 +408,7 @@ Note
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">## Run the program</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate rmpi</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ce script doit être exécutable</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod +x hello_mpi.sh</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> hello_mpi.sh</span>
@@ -439,14 +439,10 @@ Note
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ex">---------</span> <span class="at">-</span> <span class="at">--------</span> <span class="at">----------</span> <span class="at">------------------------------------------------</span></span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ex">26118496</span>  F navarop-    0:00:18 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous<span class="kw">|</span><span class="ex">verysmall</span> <span class="er">(</span><span class="va">Karma</span><span class="op">=</span>0.004,quota_ok<span class="kw">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat hello_mpi.out</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 3 out of 4 processors</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 2 out of 4 processors</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 0 out of 4 processors</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor dahu146, rank 1 out of 4 processors</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host dahu146</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host dahu146</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host dahu146</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host dahu146</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host dahu146</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host dahu146</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host dahu146</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host dahu146</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="exemple-r-mpmd-multiple-program-multiple-data" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</h2>
