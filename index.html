@@ -68,6 +68,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -106,6 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages">Documentation de GRICAD</a></li>
 <li><a href="https://mpitutorial.com">MPI Tutorial by Wes Kendall</a></li>
 <li><a href="https://cran.r-project.org/web/views/HighPerformanceComputing.html">CRAN Task View: High-Performance and Parallel Computing with R</a></li>
+<li><a href="https://snoweye.github.io/R_note/inc_menu/Rmpi.html"><code>R_note</code> by Wei-Chen Chen</a></li>
 </ul>
 </section>
 <section id="introduction" class="level1">
@@ -264,6 +294,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.close.Rslaves</span>(<span class="at">dellog =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.exit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="spmd-vs-mpmd" class="level1">
+<h1>SPMD vs MPMD</h1>
+<ul>
+<li>Plus proche du code séquentiel, c’est-à-dire que le SPMD est plus facile à coder à partir de la version séquentielle</li>
+<li>Plus court que la version MPMD, donc moins d’erreurs potentielles.</li>
+<li>Le processeur 0 travaille également, ce qui permet d’utiliser pleinement les ressources.</li>
+<li>En général la taille et nombre de messages sont plus réduites.</li>
+</ul>
 </section>
 <section id="mpi-exercice-1-environnement-mpi" class="level1">
 <h1>MPI – Exercice 1 : Environnement MPI</h1>
@@ -489,6 +528,59 @@ Moi, processus 3, je suis de rang impair</code></pre>
 <li>Essayer d’équilibrer la charge sur vos processus</li>
 <li>Jeter un oeil à <a href="https://github.com/RBigData/pbdMPI">pdbMPI</a></li>
 </ul>
+</section>
+<section id="exercice" class="level1">
+<h1>Exercice</h1>
+<p>On veut paralléliser l’exemple suivant avec Rmpi</p>
+<p>“““R my.loop &lt;- 20 m.dim &lt;- list(nrow = 200000, ncol = 10) m &lt;- matrix(1, nrow = m.dim<span class="math inline">\(nrow, ncol = m.dim\)</span>ncol) ret &lt;- 0</p>
+<p>start &lt;- Sys.time() for(k in 1 : my.loop){ ret &lt;- ret + sum(rowSums(m)) } Sys.time() - start ““”</p>
+<p>Voici la version MPMD, essayer d’en faire une version SPMD et comparer les performances.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>loop.fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> m.dim<span class="sc">$</span>nrow, <span class="at">ncol =</span> m.dim<span class="sc">$</span>ncol)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(m))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>call.mpi.master <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(Rmpi)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.spawn.Rslaves</span>(<span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj2slave</span>(call.mpi.slave)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.cmd</span>(<span class="fu">call.mpi.slave</span>())</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.bcast.Robj</span>(loop.fun)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  my.size <span class="ot">&lt;-</span> <span class="fu">mpi.universe.size</span>()</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="dv">20</span> </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  my.split <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">loop =</span> <span class="dv">1</span> <span class="sc">:</span> my.loop,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rank =</span> <span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">:</span> my.size, my.loop <span class="sc">%/%</span> my.size),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">if</span>(my.loop <span class="sc">%%</span> my.size <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                                (my.size <span class="sc">:</span> <span class="dv">2</span>)[<span class="dv">1</span> <span class="sc">:</span> (my.loop <span class="sc">%%</span> my.size)])))</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mpi.send.Robj</span>(my.split<span class="sc">$</span>loop[my.split<span class="sc">$</span>rank <span class="sc">==</span> i], <span class="at">dest =</span> i, <span class="at">tag =</span> <span class="dv">1</span>)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> my.size){</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">mpi.recv</span>(<span class="fu">integer</span>(<span class="dv">1</span>), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">source =</span> i, <span class="at">tag =</span> <span class="dv">2</span>)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  ret</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>call.mpi.slave <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>  loop.fun <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">mpi.bcast.Robj</span>())</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  my.loop <span class="ot">&lt;-</span> <span class="fu">mpi.recv.Robj</span>(<span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">1</span>)</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> my.loop){</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>    ret <span class="ot">&lt;-</span> ret <span class="sc">+</span> <span class="fu">loop.fun</span>()</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mpi.send</span>(<span class="fu">as.integer</span>(ret), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">2</span>)</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="fu">call.mpi.master</span>()</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">-</span> start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 </main>
