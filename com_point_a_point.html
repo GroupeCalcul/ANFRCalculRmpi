@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Communications point à point – ANF R Calcul Rmpi</title>
+<title>Rmpi : communications point à point</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,9 +116,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     <img src="./logo.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ANF R Calcul Rmpi</span>
-    </a>
   </div>
             <div id="quarto-search" class="" title="Recherche"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -138,12 +137,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exercice.html"> 
-<span class="menu-text">Travaux pratiques</span></a>
+<span class="menu-text">Conclusion</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
     <a href="https://github.com/GroupeCalcul/ANFRCalculRmpi" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Basculer le mode sombre"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -160,8 +160,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mpi.send-et-mpi.recv" id="toc-mpi.send-et-mpi.recv" class="nav-link active" data-scroll-target="#mpi.send-et-mpi.recv"><code>mpi.send</code> et <code>mpi.recv</code></a>
   <ul class="collapse">
   <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple">Exemple</a></li>
+  <li><a href="#exercice-ping-pong" id="toc-exercice-ping-pong" class="nav-link" data-scroll-target="#exercice-ping-pong">Exercice Ping-Pong</a></li>
   </ul></li>
-  <li><a href="#travaux-pratiques-mpi-exercice-2-ping-pong" id="toc-travaux-pratiques-mpi-exercice-2-ping-pong" class="nav-link" data-scroll-target="#travaux-pratiques-mpi-exercice-2-ping-pong">Travaux pratiques MPI – Exercice 2 : Ping-pong</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/com_point_a_point.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/com_point_a_point.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
     </div>
@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Communications point à point</h1>
+<h1 class="title">Rmpi : communications point à point</h1>
 </div>
 
 
@@ -191,11 +191,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1><code>mpi.send</code> et <code>mpi.recv</code></h1>
 <p>Une communication dite point à point a lieu entre deux processus, l’un appelé processus émetteur et l’autre processus récepteur (ou destinataire). L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur. L’entité transmise entre deux processus est appelée message. Un message est caractérisé par son enveloppe. Celle-ci est constituée :</p>
 <ul>
-<li>du rang du processus émetteur ;</li>
-<li>du rang du processus récepteur ;</li>
-<li>de l’étiquette (tag) du message ;</li>
-<li>du communicateur qui définit le groupe de processus et le contexte de communication.</li>
-<li>Les données échangées sont typées (entiers, réels, etc…)</li>
+<li>du rang du processus émetteur <code>source</code>;</li>
+<li>du rang du processus récepteur <code>dest</code> ;</li>
+<li>de l’étiquette du message <code>tag</code>;</li>
+<li>du communicateur qui définit le groupe de processus et le contexte de communication <code>comm</code>.</li>
+<li>Les données échangées sont typées (entiers, réels, etc…) <code>type</code>.</li>
 </ul>
 <p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.</p>
 <ul>
@@ -203,8 +203,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>mpi.recv(x, type, source, tag,  comm = 1, status = 0)</code></li>
 </ul>
 <p><code>type</code> : 1 pour les entiers, 2 pour les flottants, 3 pour les caractères.</p>
-<p>L’appel <code>mpi.recv</code> pourra fonctionner avec une opération <code>mpi.send</code> si ces deux appels ont la même enveloppe (<code>rang_source</code>, <code>rang_dest</code>, <code>etiquette</code>, <code>comm</code>).</p>
+<p>L’appel <code>mpi.recv</code> pourra fonctionner avec une opération <code>mpi.send</code> si ces deux appels ont la même enveloppe (<code>source</code>, <code>dest</code>, <code>tag</code>, <code>comm</code>).</p>
 <p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message corresponde au message reçu.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Les fonctions <code>mpi.send.Robj</code> et <code>mpi.recv.Robj</code> permettent d’envoyer et recevoir des objets R à condition qu’ils soient sérialisables comme les <code>data.frame</code> par exemple. Il existe des versions non bloquantes <code>mpi.isend</code> et <code>mpi.irecv</code> ainsi qu’une version contractée <code>mpi.sendrecv</code> bidirectionnel. Ces concepts ne seront pas abordés ici.</p>
+</div>
+</div>
 <section id="exemple" class="level2">
 <h2 class="anchored" data-anchor-id="exemple">Exemple</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
@@ -233,10 +246,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 0: Received from process 2 saying: 2</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 0: Received from process 3 saying: 3</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-</section>
-<section id="travaux-pratiques-mpi-exercice-2-ping-pong" class="level1">
-<h1>Travaux pratiques MPI – Exercice 2 : Ping-pong</h1>
-<p>L’exercice 2 est décomposé en 3 étapes :</p>
+<section id="exercice-ping-pong" class="level2">
+<h2 class="anchored" data-anchor-id="exercice-ping-pong">Exercice Ping-Pong</h2>
+<p>L’exercice est décomposé en 3 étapes :</p>
 <ol type="1">
 <li><em>Ping</em>: compléter le script <code>ping_pong_1.R</code> de manière à ce que le processus de rang 0 envoie un message contenant une série aléatoire de 1000 réels au rang 1.</li>
 <li><em>Ping-Pong</em>: compléter le script <code>ping_pong_2.R</code> de manière à ce que le processus de rang 1 renvoie le message vers le processus de rang 0.</li>
@@ -244,6 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -267,6 +280,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

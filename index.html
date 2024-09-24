@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Rmpi – ANF R Calcul Rmpi</title>
+<title>Rmpi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,9 +116,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     <img src="./logo.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ANF R Calcul Rmpi</span>
-    </a>
   </div>
             <div id="quarto-search" class="" title="Recherche"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -138,12 +137,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exercice.html"> 
-<span class="menu-text">Travaux pratiques</span></a>
+<span class="menu-text">Conclusion</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
     <a href="https://github.com/GroupeCalcul/ANFRCalculRmpi" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Basculer le mode sombre"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -167,11 +167,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exemple-c" id="toc-exemple-c" class="nav-link" data-scroll-target="#exemple-c">Exemple C</a></li>
   <li><a href="#compilation-et-exécution-dun-code-mpi-en-c" id="toc-compilation-et-exécution-dun-code-mpi-en-c" class="nav-link" data-scroll-target="#compilation-et-exécution-dun-code-mpi-en-c">Compilation et exécution d’un code MPI en C</a></li>
   <li><a href="#exemple-python" id="toc-exemple-python" class="nav-link" data-scroll-target="#exemple-python">Exemple Python</a></li>
-  <li><a href="#exemple-r-spmd" id="toc-exemple-r-spmd" class="nav-link" data-scroll-target="#exemple-r-spmd">Exemple R SPMD</a></li>
+  <li><a href="#exemple-r-spmd-single-program-multiple-data" id="toc-exemple-r-spmd-single-program-multiple-data" class="nav-link" data-scroll-target="#exemple-r-spmd-single-program-multiple-data">Exemple R SPMD (Single Program Multiple Data)</a></li>
   <li><a href="#exécution-sur-le-cluster-perseus" id="toc-exécution-sur-le-cluster-perseus" class="nav-link" data-scroll-target="#exécution-sur-le-cluster-perseus">Exécution sur le cluster perseus</a></li>
-  <li><a href="#exemple-r-mpmd" id="toc-exemple-r-mpmd" class="nav-link" data-scroll-target="#exemple-r-mpmd">Exemple R MPMD</a></li>
+  <li><a href="#exemple-r-mpmd-multiple-program-multiple-data" id="toc-exemple-r-mpmd-multiple-program-multiple-data" class="nav-link" data-scroll-target="#exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</a></li>
   <li><a href="#spmd-vs-mpmd" id="toc-spmd-vs-mpmd" class="nav-link" data-scroll-target="#spmd-vs-mpmd">SPMD vs MPMD</a></li>
-  <li><a href="#mpi-exercice-1-environnement-mpi" id="toc-mpi-exercice-1-environnement-mpi" class="nav-link" data-scroll-target="#mpi-exercice-1-environnement-mpi">MPI – Exercice 1 : Environnement MPI</a></li>
+  <li><a href="#exercice" id="toc-exercice" class="nav-link" data-scroll-target="#exercice">Exercice</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
     </div>
@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Ces supports reprennent très largement les <a href="http://www.idris.fr/formations/mpi/">supports de cours MPI de l’IDRIS</a> écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J’ai utilisé également les références suivantes:</p>
+<p>Ces supports reprennent très largement les <a href="http://www.idris.fr/formations/mpi/">supports de cours MPI de l’IDRIS</a> écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J’ai utilisé également les ressources suivantes:</p>
 <ul>
 <li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Site officiel de Rmpi</a></li>
 <li><a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/">How to run R programs on University of Maryland HPC facility</a></li>
@@ -232,7 +232,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Les données (variables scalaires, tableaux, etc.)</li>
 <li>l’identificateur du processus émetteur</li>
 <li>le type de la donnée</li>
-<li>sa longueur</li>
 <li>l’identificateur du processus récepteur.</li>
 </ul>
 </section>
@@ -274,6 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exemple-c" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-c">Exemple C</h2>
+<p>Cloner le dépôt <a href="https://github.com/GroupeCalcul/ANFRCalculRmpi" class="uri">https://github.com/GroupeCalcul/ANFRCalculRmpi</a> pour récupérer les exemples.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;mpi.h&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -306,6 +306,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="compilation-et-exécution-dun-code-mpi-en-c">Compilation et exécution d’un code MPI en C</h2>
 <p>Pour compiler un code MPI, il faut faire le lien avec la librairie MPI utilisée en utilisant par exemple <code>mpicc</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpicc <span class="ex">hello_mpi.c</span> <span class="at">-o</span> hello</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Packages ubuntu : <code>libopenmpi-dev</code>et <code>openmpi-bin</code></p>
+</div>
+</div>
 <p>Pour exécuter un code MPI, on utilise un lanceur d’application MPI qui ordonne le lancement de l’exécution sur un nombre de processus choisi. Le lanceur défini par la norme MPI est <code>mpiexec</code>. Il existe également des lanceurs non standards, comme <code>mpirun</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 ./hello</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from processor ar039133.math.univ-rennes1.fr, rank 2 out of 4 processors</span>
@@ -315,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exemple-python" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-python">Exemple Python</h2>
-<p>Pour les langages interprétés, il est nécessaire de lancer plusieurs sessions pour utiliser MPI.</p>
+<p>Pour les langages interprétés, il est nécessaire de lancer plusieurs sessions avec <code>mpiexec</code> ou <code>mpirun</code> pour utiliser MPI.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
@@ -331,8 +344,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exemple-r-spmd" class="level2">
-<h2 class="anchored" data-anchor-id="exemple-r-spmd">Exemple R SPMD</h2>
+<section id="exemple-r-spmd-single-program-multiple-data" class="level2">
+<h2 class="anchored" data-anchor-id="exemple-r-spmd-single-program-multiple-data">Exemple R SPMD (Single Program Multiple Data)</h2>
 <p><img src="spmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -345,9 +358,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pour une raison qui m’est inconnue, si on laisse la valeur <code>comm=1</code> par défaut, l’exemple ne fonctionne pas.</p>
+</div>
+</div>
 <p>Installation de l’environnement logiciel</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda create <span class="at">-y</span> <span class="at">-n</span> rmpi r-rmpi <span class="at">-c</span> conda-forge</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda activate rmpi</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> Rscript <span class="at">-e</span> <span class="st">'install.packages("Rmpi")'</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpiexec <span class="at">-np</span> 4 Rscript hello_mpi.R</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 003 of 004, on host srv-mingus</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 000 of 004, on host srv-mingus</span>
@@ -416,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 002 of 004, on host dahu146</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> world from task 001 of 004, on host dahu146</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exemple-r-mpmd" class="level2">
-<h2 class="anchored" data-anchor-id="exemple-r-mpmd">Exemple R MPMD</h2>
+<section id="exemple-r-mpmd-multiple-program-multiple-data" class="level2">
+<h2 class="anchored" data-anchor-id="exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</h2>
 <p><img src="mpmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -455,16 +480,16 @@ Avertissement
 </section>
 <section id="spmd-vs-mpmd" class="level2">
 <h2 class="anchored" data-anchor-id="spmd-vs-mpmd">SPMD vs MPMD</h2>
-<p>On retrouve plus d’exemples utilisant la méthode MPMD mais cette forme de parallélisation est plus difficile à faire fonctionner et semble moins rapide (voir <a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/#heading_toc_j_7">ici</a>)</p>
+<p>On retrouve plus d’exemples utilisant la méthode MPMD mais cette forme de parallélisation est plus difficile à faire fonctionner et semble moins rapide (voir <a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/#heading_toc_j_7">ici</a>). La technique SPMD présente plusieurs avantages:</p>
 <ul>
-<li>Plus proche du code séquentiel, c’est-à-dire que le SPMD est plus facile à coder à partir de la version séquentielle</li>
-<li>Plus court que la version MPMD, donc moins d’erreurs potentielles.</li>
+<li>Code plus proche du code séquentiel, c’est-à-dire que le SPMD est plus facile à coder à partir de la version séquentielle</li>
+<li>Code plus court que la version MPMD, donc moins d’erreurs potentielles.</li>
 <li>Le processeur 0 travaille également, ce qui permet d’utiliser pleinement les ressources.</li>
-<li>En général la taille et nombre de messages sont plus réduites.</li>
+<li>En général la taille et nombre de messages sont plus réduits.</li>
 </ul>
 </section>
-<section id="mpi-exercice-1-environnement-mpi" class="level2">
-<h2 class="anchored" data-anchor-id="mpi-exercice-1-environnement-mpi">MPI – Exercice 1 : Environnement MPI</h2>
+<section id="exercice" class="level2">
+<h2 class="anchored" data-anchor-id="exercice">Exercice</h2>
 <p>Implémenter un programme MPI SPMD dans lequel chaque processus affiche un message indiquant si son rang est pair ou impair. Par exemple :</p>
 <pre><code>&gt; mpiexec -np 4 Rscript pair_impair.R
 Moi, processus 0, je suis de rang pair
@@ -496,6 +521,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
