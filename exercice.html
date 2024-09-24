@@ -136,6 +136,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./com_collectives.html"> 
 <span class="menu-text">Communications collectives</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./exercice.html" aria-current="page"> 
+<span class="menu-text">Travaux pratiques</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -180,8 +184,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="recommendations-pour-utiliser-mpi" class="level1">
-<h1>Recommendations pour utiliser MPI</h1>
+<section id="recommendations-pour-utiliser-mpi" class="level2">
+<h2 class="anchored" data-anchor-id="recommendations-pour-utiliser-mpi">Recommendations pour utiliser MPI</h2>
 <ul>
 <li>Le modèle <strong>SPMD</strong> fonctionne mieux sur les clusters de calcul que le modèle <strong>SPMD</strong></li>
 <li>Limiter au maximum les messages avec un grand volumes de données</li>
@@ -192,8 +196,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Jeter un oeil à <a href="https://github.com/RBigData/pbdMPI">pdbMPI</a></li>
 </ul>
 </section>
-<section id="exercice" class="level1">
-<h1>Exercice</h1>
+<section id="exercice" class="level2">
+<h2 class="anchored" data-anchor-id="exercice">Exercice</h2>
 <p>On veut paralléliser l’exemple suivant avec Rmpi</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my.loop <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m.dim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">200000</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
