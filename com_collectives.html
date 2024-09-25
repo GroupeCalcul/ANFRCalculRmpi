@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./logo.png" alt="" class="navbar-logo">
+    <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Recherche"></div>
@@ -270,7 +270,7 @@ Avertissement
 <section id="diffusion-sélective-mpi.scatter" class="level2">
 <h2 class="anchored" data-anchor-id="diffusion-sélective-mpi.scatter">Diffusion sélective <code>mpi.scatter</code></h2>
 <p>La ième tranche est envoyée au ième processus.</p>
-<p><img src="broadcastvsscatter.png" class="img-fluid"></p>
+<p><img src="images/broadcastvsscatter.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
@@ -297,7 +297,7 @@ Avertissement
 </section>
 <section id="collecte-mpi.gather" class="level2">
 <h2 class="anchored" data-anchor-id="collecte-mpi.gather">Collecte <code>mpi.gather</code></h2>
-<p><img src="gather.png" class="img-fluid"></p>
+<p><img src="images/gather.png" class="img-fluid"></p>
 <ol type="1">
 <li>Envoi d’un message de chacun des processus du communicateur <code>comm</code></li>
 <li>Collecte de chacun de ces messages, par le processus <code>root</code></li>
@@ -307,7 +307,7 @@ Avertissement
 <section id="collecte-générale-mpi.allgather" class="level2">
 <h2 class="anchored" data-anchor-id="collecte-générale-mpi.allgather">Collecte générale <code>mpi.allgather</code></h2>
 <p>Correspond à un <code>mpi.gather</code> suivi d’un <code>mpi.bcast</code></p>
-<p><img src="allgather.png" class="img-fluid"></p>
+<p><img src="images/allgather.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

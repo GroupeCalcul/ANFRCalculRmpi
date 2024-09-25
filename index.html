@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./logo.png" alt="" class="navbar-logo">
+    <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Recherche"></div>
@@ -314,13 +314,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="compilation-et-exécution-dun-code-mpi-en-c">Compilation et exécution d’un code MPI en C</h2>
 <p>Pour compiler un code MPI, il faut faire le lien avec la librairie MPI utilisée en utilisant par exemple <code>mpicc</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpicc <span class="ex">hello_mpi.c</span> <span class="at">-o</span> hello</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Astuce
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -354,7 +354,7 @@ Note
 </section>
 <section id="exemple-r-spmd-single-program-multiple-data" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-spmd-single-program-multiple-data">Exemple R SPMD (Single Program Multiple Data)</h2>
-<p><img src="spmd.png" class="img-fluid"></p>
+<p><img src="images/spmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
@@ -446,7 +446,7 @@ Note
 </section>
 <section id="exemple-r-mpmd-multiple-program-multiple-data" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</h2>
-<p><img src="mpmd.png" class="img-fluid"></p>
+<p><img src="images/mpmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">4</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
