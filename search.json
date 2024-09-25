@@ -102,7 +102,7 @@
     "href": "index.html#architecture-des-supercalculateurs",
     "title": "Rmpi",
     "section": "Architecture des supercalculateurs",
-    "text": "Architecture des supercalculateurs\nLa plupart des supercalculateurs sont des machines à mémoire distribuée. Ils sont composés d’un ensemble de nœud, à l’intérieur d’un nœud la mémoire est partagée."
+    "text": "Architecture des supercalculateurs\nLa plupart des supercalculateurs sont des machines à mémoire distribuée. Ils sont composés d’un ensemble de nœud, à l’intérieur d’un nœud la mémoire est partagée. Sur un noeud on pourra éventuellement accéder à un accelérateur."
   },
   {
     "objectID": "index.html#mpi-vs-openmp",
