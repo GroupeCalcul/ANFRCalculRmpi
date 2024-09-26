@@ -11,7 +11,6 @@ my.size <- mpi.comm.size(comm=0)
 
 my.loop <- 20 
 my.split <- .splitIndices(my.loop, my.size)
-
 my.loop <- unlist(my.split[my.rank+1])
 
 ret <- 0
@@ -21,7 +20,7 @@ for(i in my.loop){
 
 res <- mpi.reduce(as.integer(ret), type = 1, op = "sum", dest = 0, comm = 0)
  
-if (my.rank == 0 ) { cat("\n", res, "\n") }
+if (my.rank == 0 ) { cat("\n res = ", res, "\n") }
 
 invisible(mpi.barrier(comm=0))
 invisible(mpi.finalize())

@@ -1,9 +1,6 @@
 # File name: rmpi_rowSums.r
 
 loop.fun <- function(){
-  ##
-  # Modify from loop_rowSums.r
-  ##
   m.dim <- list(nrow = 200000, ncol = 10)
   m <- matrix(1, nrow = m.dim$nrow, ncol = m.dim$ncol)
 
