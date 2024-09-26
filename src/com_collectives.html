@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pierre Navaro, IRMAR, CNRS.">
 
-<title>Rmpi : communications point à point</title>
+<title>Rmpi : Communications collectives</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,24 +58,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,8 +114,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/logo.png" alt="" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Recherche"></div>
@@ -125,19 +125,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../src/index.html"> 
 <span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./com_point_a_point.html" aria-current="page"> 
+    <a class="nav-link" href="../src/com_point_a_point.html"> 
 <span class="menu-text">Communications point à point</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./com_collectives.html"> 
+    <a class="nav-link active" href="../src/com_collectives.html" aria-current="page"> 
 <span class="menu-text">Communications collectives</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./exercice.html"> 
+    <a class="nav-link" href="../src/exercice.html"> 
 <span class="menu-text">Conclusion</span></a>
   </li>  
 </ul>
@@ -158,21 +158,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#mpi.send-et-mpi.recv" id="toc-mpi.send-et-mpi.recv" class="nav-link active" data-scroll-target="#mpi.send-et-mpi.recv"><code>mpi.send</code> et <code>mpi.recv</code></a>
+  <li><a href="#notions-générales" id="toc-notions-générales" class="nav-link active" data-scroll-target="#notions-générales">Notions générales</a></li>
+  <li><a href="#types-de-communications-collectives" id="toc-types-de-communications-collectives" class="nav-link" data-scroll-target="#types-de-communications-collectives">Types de communications collectives</a></li>
+  <li><a href="#diffusion-générale-mpi.bcast" id="toc-diffusion-générale-mpi.bcast" class="nav-link" data-scroll-target="#diffusion-générale-mpi.bcast">Diffusion générale <code>mpi.bcast</code></a></li>
+  <li><a href="#diffusion-sélective-mpi.scatter" id="toc-diffusion-sélective-mpi.scatter" class="nav-link" data-scroll-target="#diffusion-sélective-mpi.scatter">Diffusion sélective <code>mpi.scatter</code></a></li>
+  <li><a href="#collecte-mpi.gather" id="toc-collecte-mpi.gather" class="nav-link" data-scroll-target="#collecte-mpi.gather">Collecte <code>mpi.gather</code></a></li>
+  <li><a href="#collecte-générale-mpi.allgather" id="toc-collecte-générale-mpi.allgather" class="nav-link" data-scroll-target="#collecte-générale-mpi.allgather">Collecte générale <code>mpi.allgather</code></a></li>
+  <li><a href="#réductions-réparties" id="toc-réductions-réparties" class="nav-link" data-scroll-target="#réductions-réparties">Réductions réparties</a>
   <ul class="collapse">
-  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple">Exemple</a></li>
-  <li><a href="#exercice-ping-pong" id="toc-exercice-ping-pong" class="nav-link" data-scroll-target="#exercice-ping-pong">Exercice Ping-Pong</a></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
+  <li><a href="#mpi.reduce" id="toc-mpi.reduce" class="nav-link" data-scroll-target="#mpi.reduce"><code>mpi.reduce</code></a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/com_point_a_point.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/com_point_a_point.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/src/com_collectives.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/src/com_collectives.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Rmpi : communications point à point</h1>
+<h1 class="title">Rmpi : Communications collectives</h1>
 </div>
 
 
@@ -195,148 +199,174 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="mpi.send-et-mpi.recv" class="level1">
-<h1><code>mpi.send</code> et <code>mpi.recv</code></h1>
-<p>Une communication dite point à point a lieu entre deux processus, l’un appelé processus émetteur et l’autre processus récepteur (ou destinataire). L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur. L’entité transmise entre deux processus est appelée message. Un message est caractérisé par son enveloppe. Celle-ci est constituée :</p>
+<section id="notions-générales" class="level2">
+<h2 class="anchored" data-anchor-id="notions-générales">Notions générales</h2>
+<p>Les communications collectives permettent de faire en une seule opération une série de communications point à point.</p>
+<p>Une communication collective concerne toujours tous les processus du communicateur indiqué.</p>
+<p>Pour chacun des processus, l’appel se termine lorsque la participation de celui-ci à l’opération collective est achevée, au sens des communications point-à-point (donc quand la zone mémoire concernée peut être modifiée).</p>
+<p>La gestion des étiquettes dans ces communications est transparente et à la charge du système. Elles ne sont donc jamais définies explicitement lors de l’appel à ces sous-programmes. Cela a entre autres pour avantage que les communications collectives n’interfèrent jamais avec les communications point à point.</p>
+</section>
+<section id="types-de-communications-collectives" class="level2">
+<h2 class="anchored" data-anchor-id="types-de-communications-collectives">Types de communications collectives</h2>
+<p>Il y a trois types de sous-programmes :</p>
+<ol type="1">
+<li>celui qui assure les synchronisations globales : <code>mpi.barrier(comm=0)</code>.</li>
+<li>ceux qui ne font que transférer des données :</li>
+</ol>
 <ul>
-<li>du rang du processus émetteur <code>source</code>;</li>
-<li>du rang du processus récepteur <code>dest</code> ;</li>
-<li>de l’étiquette du message <code>tag</code>;</li>
-<li>du communicateur qui définit le groupe de processus et le contexte de communication <code>comm</code>.</li>
-<li>Les données échangées sont typées (entiers, réels, etc…) <code>type</code>.</li>
+<li>diffusion globale de données : <code>mpi.bcast</code></li>
+<li>diffusion sélective de données : <code>mpi.scatter</code></li>
+<li>collecte de données réparties : <code>mpi.gather</code></li>
 </ul>
-<p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.</p>
+<ol start="3" type="1">
+<li>ceux qui, en plus de la gestion des communications, effectuent des opérations sur les données transférées :</li>
+</ol>
 <ul>
-<li><code>mpi.send(x, type, dest, tag,  comm = 1)</code></li>
-<li><code>mpi.recv(x, type, source, tag,  comm = 1, status = 0)</code></li>
+<li>opérations de réduction (somme, produit, maximum, minimum, etc.), qu’elles soient d’un type prédéfini ou d’un type personnel : <code>mpi.reduce</code></li>
+<li>opérations de réduction avec diffusion du résultat <code>mpi.reduce</code> suivi d’un <code>mpi.bcast</code></li>
 </ul>
-<p><code>type</code> : 1 pour les entiers, 2 pour les flottants, 3 pour les caractères.</p>
-<p>L’appel <code>mpi.recv</code> pourra fonctionner avec une opération <code>mpi.send</code> si ces deux appels ont la même enveloppe (<code>source</code>, <code>dest</code>, <code>tag</code>, <code>comm</code>).</p>
-<p>Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message corresponde au message reçu.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+</section>
+<section id="diffusion-générale-mpi.bcast" class="level2">
+<h2 class="anchored" data-anchor-id="diffusion-générale-mpi.bcast">Diffusion générale <code>mpi.bcast</code></h2>
+<ol type="1">
+<li>Envoi, à partir de l’adresse <code>obj</code>, d’un message constitué de type <code>type</code>, par le processus <code>rank</code>, à tous les autres processus du communicateur <code>comm</code>.</li>
+<li>Réception de ce message à l’adresse message pour les processus autre que <code>rank</code>.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Diffusion du vecteur v sur les processeurs autre que 0</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mpi.bcast.Robj</span>(<span class="at">obj =</span> v, <span class="at">rank =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">mpi.bcast.Robj</span>(<span class="at">rank =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"vector on "</span>, id, <span class="st">" = "</span>,  v, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span> )</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Avertissement
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Les fonctions <code>mpi.send.Robj</code> et <code>mpi.recv.Robj</code> permettent d’envoyer et recevoir des objets R à condition qu’ils soient sérialisables comme les <code>data.frame</code> par exemple. Il existe des versions non bloquantes <code>mpi.isend</code> et <code>mpi.irecv</code> ainsi qu’une version contractée <code>mpi.sendrecv</code> bidirectionnelle. Ces concepts ne seront pas abordés ici.</p>
+<p>Habituellement avec MPI, le même appel <code>mpi.bcast</code> devrait pouvoir être effectué sur tous les processus. Je n’ai pas réussi à le faire avec Rmpi…</p>
 </div>
 </div>
-<section id="exemple" class="level2">
-<h2 class="anchored" data-anchor-id="exemple">Exemple</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, np<span class="dv">-1</span>)) {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="at">x =</span> <span class="fu">integer</span>(<span class="dv">1</span>), <span class="at">type =</span> <span class="dv">1</span>, <span class="at">source =</span> i, <span class="at">tag =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span>(<span class="st">"Process 0: Received from process"</span>, i, <span class="st">"saying:"</span>, recv, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    msg <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(id)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Process"</span>, id, <span class="st">" sent to process 0:"</span>, msg, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">invisible</span>(<span class="fu">mpi.send</span>(msg, <span class="dv">1</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm =</span> <span class="dv">0</span>))</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpiexec <span class="at">-np</span> 4 Rscript send_recv.R</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 3  sent to process 0: 3</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 2  sent to process 0: 2</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 1  sent to process 0: 1</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 0: Received from process 1 saying: 1</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 0: Received from process 2 saying: 2</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Process</span> 0: Received from process 3 saying: 3</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript bcast.R</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  3  =  1 2 3 4</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  2  =  1 2 3 4</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  1  =  1 2 3 4</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">vector</span> on  0  =  1 2 3 4</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exercice-ping-pong" class="level2">
-<h2 class="anchored" data-anchor-id="exercice-ping-pong">Exercice Ping-Pong</h2>
-<p>L’exercice est décomposé en 3 étapes :</p>
-<ol type="1">
-<li><em>Ping</em>: compléter le script <code>ping_pong_1.R</code> de manière à ce que le processus de rang 0 envoie un message contenant une série aléatoire de 1000 réels au rang 1.</li>
-<li><em>Ping-Pong</em>: compléter le script <code>ping_pong_2.R</code> de manière à ce que le processus de rang 1 renvoie le message vers le processus de rang 0.</li>
-<li>Match de <em>Ping-Pong</em>: compléter le script <code>ping_pong_3.R</code> de manière à enchainer 9 échanges.</li>
-</ol>
-</section>
-<section id="solutions" class="level2">
-<h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
+<section id="diffusion-sélective-mpi.scatter" class="level2">
+<h2 class="anchored" data-anchor-id="diffusion-sélective-mpi.scatter">Diffusion sélective <code>mpi.scatter</code></h2>
+<p>La ième tranche est envoyée au ième processus.</p>
+<p><img src="images/broadcastvsscatter.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nb_valeurs <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>etiquette <span class="ot">&lt;-</span> <span class="dv">99</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>valeurs <span class="ot">&lt;-</span> <span class="fu">runif</span>(nb_valeurs)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> <span class="fu">mpi.send</span>(valeurs, <span class="at">type =</span> <span class="dv">2</span>, <span class="at">dest =</span> <span class="dv">1</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="fu">numeric</span>(nb_valeurs), <span class="at">type =</span> <span class="dv">2</span>, <span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Moi, processus 1, j''ai recu "</span>,nb_valeurs,<span class="st">" valeurs du processus 0. </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Premiere valeur "</span>,recv[<span class="dv">1</span>],<span class="st">" derniere valeur "</span>, recv[<span class="dv">1000</span>], <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm =</span> <span class="dv">0</span>))</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nb_valeurs <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>etiquette <span class="ot">&lt;-</span> <span class="dv">99</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>valeurs <span class="ot">&lt;-</span> <span class="fu">runif</span>(nb_valeurs)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> <span class="fu">mpi.send</span>(valeurs, <span class="at">type =</span> <span class="dv">2</span>, <span class="at">dest =</span> <span class="dv">1</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    valeurs <span class="ot">&lt;-</span> valeurs <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="fu">numeric</span>(nb_valeurs), <span class="at">type =</span> <span class="dv">2</span>, <span class="at">source =</span> <span class="dv">1</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Moi, processus 0, j''ai recu "</span>,nb_valeurs,<span class="st">" valeurs du processus 1. </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Premiere valeur "</span>,recv[<span class="dv">1</span>],<span class="st">" derniere valeur "</span>, recv[<span class="dv">1000</span>], <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="fu">numeric</span>(nb_valeurs), <span class="at">type =</span> <span class="dv">2</span>, <span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Moi, processus 1, j''ai recu "</span>,nb_valeurs,<span class="st">" valeurs du processus 0. </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Premiere valeur "</span>,recv[<span class="dv">1</span>],<span class="st">" derniere valeur "</span>, recv[<span class="dv">1000</span>], <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    valeurs <span class="ot">&lt;-</span> valeurs <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> <span class="fu">mpi.send</span>(valeurs, <span class="at">type =</span> <span class="dv">2</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm =</span> <span class="dv">0</span>))</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,<span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    splitmatrix <span class="ot">=</span> <span class="cf">function</span>(x, ncl) <span class="fu">lapply</span>(<span class="fu">.splitIndices</span>(<span class="fu">nrow</span>(x), ncl), <span class="cf">function</span>(i) x[i,])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    chunk <span class="ot">=</span> <span class="fu">splitmatrix</span>(data, np)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>chunk <span class="ot">&lt;-</span> <span class="fu">mpi.scatter.Robj</span>(<span class="at">obj =</span> chunk, <span class="at">root =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"data on "</span>, id, <span class="st">":"</span>, chunk, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript scatter.R</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 0 : 1 2 9 10 17 18</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 3 : 7 8 15 16 23 24</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 2 : 5 6 13 14 21 22</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 1 : 3 4 11 12 19 20</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="collecte-mpi.gather" class="level2">
+<h2 class="anchored" data-anchor-id="collecte-mpi.gather">Collecte <code>mpi.gather</code></h2>
+<p><img src="images/gather.png" class="img-fluid"></p>
+<ol type="1">
+<li>Envoi d’un message de chacun des processus du communicateur <code>comm</code></li>
+<li>Collecte de chacun de ces messages, par le processus <code>root</code></li>
+</ol>
+<p>Les données sont collectées dans l’ordre des rangs des processus.</p>
+</section>
+<section id="collecte-générale-mpi.allgather" class="level2">
+<h2 class="anchored" data-anchor-id="collecte-générale-mpi.allgather">Collecte générale <code>mpi.allgather</code></h2>
+<p>Correspond à un <code>mpi.gather</code> suivi d’un <code>mpi.bcast</code></p>
+<p><img src="images/allgather.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Avertissement
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Attention avec ces fonctions <code>mpi.all*</code> elles peuvent être très gourmandes…</p>
+</div>
+</div>
+</section>
+<section id="réductions-réparties" class="level1">
+<h1>Réductions réparties</h1>
+<p>Une réduction est une opération appliquée à un ensemble d’éléments pour en obtenir une seule valeur. Des exemples typiques sont la somme des éléments d’un vecteur ou la recherche de l’élément de valeur maximum dans un vecteur</p>
+<p>MPI propose des sous-programmes de haut-niveau pour opérer des réductions sur des données réparties sur un ensemble de processus. Le résultat est obtenu sur un seul processus (<code>mpi.reduce</code>) ou bien sur tous (<code>mpi.allreduce</code>, qui est en fait équivalent à un <code>mpi.reduce</code> suivi d’un <code>mpi.bcast</code>). Si plusieurs éléments sont concernés par processus, la fonction de réduction est appliquée à chacun d’entre eux (par exemple à tous les éléments d’un vecteur).</p>
+<section id="mpi.reduce" class="level2">
+<h2 class="anchored" data-anchor-id="mpi.reduce"><code>mpi.reduce</code></h2>
+<p>Opérations pour réductions réparties</p>
+<ul>
+<li>“sum” : Somme des éléments</li>
+<li>“prod” : Produit des éléments</li>
+<li>“max” : Recherche du maximum</li>
+<li>“min” : Recherche du minimum</li>
+<li>“maxloc” : Recherche de l’indice du maximum</li>
+<li>“minloc” : Recherche de l’indice du minimum</li>
+</ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nb_valeurs <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>etiquette <span class="ot">&lt;-</span> <span class="dv">99</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>valeurs <span class="ot">&lt;-</span> <span class="fu">runif</span>(nb_valeurs)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (e <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"e = "</span>, e, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        err <span class="ot">&lt;-</span> <span class="fu">mpi.send</span>(valeurs, <span class="at">type =</span> <span class="dv">2</span>, <span class="at">dest =</span> <span class="dv">1</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        valeurs <span class="ot">&lt;-</span> valeurs <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="fu">numeric</span>(nb_valeurs), <span class="at">type =</span> <span class="dv">2</span>, <span class="at">source =</span> <span class="dv">1</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span>(<span class="st">"Moi, processus 0, j''ai recu "</span>,nb_valeurs,<span class="st">" valeurs du processus 1. </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span>(<span class="st">"Premiere valeur "</span>,recv[<span class="dv">1</span>],<span class="st">" derniere valeur "</span>, recv[<span class="dv">1000</span>], <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        recv <span class="ot">&lt;-</span> <span class="fu">mpi.recv</span>(<span class="fu">numeric</span>(nb_valeurs), <span class="at">type =</span> <span class="dv">2</span>, <span class="at">source =</span> <span class="dv">0</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span>(<span class="st">"Moi, processus 1, j''ai recu "</span>,nb_valeurs,<span class="st">" valeurs du processus 0. </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span>(<span class="st">"Premiere valeur "</span>,recv[<span class="dv">1</span>],<span class="st">" derniere valeur "</span>, recv[<span class="dv">1000</span>], <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        valeurs <span class="ot">&lt;-</span> valeurs <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        err <span class="ot">&lt;-</span> <span class="fu">mpi.send</span>(valeurs, <span class="at">type =</span> <span class="dv">2</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">tag =</span> etiquette, <span class="at">comm =</span> <span class="dv">0</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm =</span> <span class="dv">0</span>))</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>(<span class="at">comm=</span><span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (id <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,<span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    splitmatrix <span class="ot">=</span> <span class="cf">function</span>(x, ncl) <span class="fu">lapply</span>(<span class="fu">.splitIndices</span>(<span class="fu">nrow</span>(x), ncl), <span class="cf">function</span>(i) x[i,])</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    chunk <span class="ot">=</span> <span class="fu">splitmatrix</span>(data, np)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>chunk <span class="ot">&lt;-</span> <span class="fu">mpi.scatter.Robj</span>(<span class="at">obj =</span> chunk, <span class="at">root =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"data on "</span>, id, <span class="st">":"</span>, chunk, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">mpi.reduce</span>(chunk, <span class="at">type=</span><span class="dv">1</span>, <span class="at">op=</span><span class="st">"sum"</span>, <span class="at">dest =</span> <span class="dv">0</span>, <span class="at">comm =</span> <span class="dv">0</span>) </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ( id <span class="sc">==</span> <span class="dv">0</span> ) {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, res, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript reduce.R</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 2 : 5 6 13 14 21 22</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 3 : 7 8 15 16 23 24</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 0 : 1 2 9 10 17 18</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">data</span> on 1 : 3 4 11 12 19 20</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">16</span> 20 48 52 80 84</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -912,4 +942,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/com_point_a_point.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/com_point_a_point.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/edit/main/src/com_collectives.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/blob/main/src/com_collectives.qmd" class="toc-action"><i class="bi empty"></i>Voir la source</a></li><li><a href="https://github.com/GroupeCalcul/ANFRCalculRmpi/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div></div></footer></body></html>
