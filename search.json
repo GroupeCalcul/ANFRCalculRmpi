@@ -81,7 +81,7 @@
     "href": "exercice.html#solution",
     "title": "Conclusion",
     "section": "Solution",
-    "text": "Solution\nlibrary(Rmpi)\n\nloop.fun &lt;- function(){\n  m.dim &lt;- list(nrow = 200000, ncol = 10)\n  m &lt;- matrix(1, nrow = m.dim$nrow, ncol = m.dim$ncol)\n  ret &lt;- sum(rowSums(m))\n}\n\nmy.rank &lt;- mpi.comm.rank(comm=0)\nmy.size &lt;- mpi.comm.size(comm=0)\n\nmy.loop &lt;- 20 \nmy.split &lt;- .splitIndices(my.loop, my.size)\n\nmy.loop &lt;- unlist(my.split[my.rank+1])\ncat(\"\\n\", my.loop)\n\nret &lt;- 0\nfor(i in my.loop){\n    ret &lt;- ret + loop.fun()\n}\n\nres &lt;- mpi.reduce(as.integer(ret), type = 1, op = \"sum\", dest = 0, comm = 0)\n \nif (my.rank == 0 ) {\n    cat(\"\\n\", res, \"\\n\")\n}\n\ninvisible(mpi.barrier(comm=0))\ninvisible(mpi.finalize())"
+    "text": "Solution\nlibrary(Rmpi)\n\nloop.fun &lt;- function(){\n  m.dim &lt;- list(nrow = 200000, ncol = 10)\n  m &lt;- matrix(1, nrow = m.dim$nrow, ncol = m.dim$ncol)\n  ret &lt;- sum(rowSums(m))\n}\n\nmy.rank &lt;- mpi.comm.rank(comm=0)\nmy.size &lt;- mpi.comm.size(comm=0)\n\nmy.loop &lt;- 20 \nmy.split &lt;- .splitIndices(my.loop, my.size)\n\nmy.loop &lt;- unlist(my.split[my.rank+1])\n\nret &lt;- 0\nfor(i in my.loop){\n    ret &lt;- ret + loop.fun()\n}\n\nres &lt;- mpi.reduce(as.integer(ret), type = 1, op = \"sum\", dest = 0, comm = 0)\n \nif (my.rank == 0 ) { cat(\"\\n\", res, \"\\n\") }\n\ninvisible(mpi.barrier(comm=0))\ninvisible(mpi.finalize())"
   },
   {
     "objectID": "index.html",
