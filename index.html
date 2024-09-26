@@ -338,14 +338,17 @@ Astuce
 <h2 class="anchored" data-anchor-id="exemple-python">Exemple Python</h2>
 <p>Pour les langages interprétés, il est nécessaire de lancer plusieurs sessions avec <code>mpiexec</code> ou <code>mpirun</code> pour utiliser MPI.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> MPI.COMM_WORLD.Get_size()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>rank <span class="op">=</span> MPI.COMM_WORLD.Get_rank()</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> MPI.Get_processor_name()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hello, World! I am process </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>size<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">Parallel Hello World</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> MPI.COMM_WORLD.Get_size()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>rank <span class="op">=</span> MPI.COMM_WORLD.Get_rank()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> MPI.Get_processor_name()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hello, World! I am process </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>size<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> mpiexec <span class="ex">-n</span> 4 python hello_mpi.py                     </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr</span>
@@ -364,8 +367,9 @@ Astuce
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>msg <span class="ot">&lt;-</span> <span class="fu">sprintf</span> (<span class="st">"Hello world from task %03d of %03d, on host %s </span><span class="sc">\n</span><span class="st">"</span>, id , np , hostname)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(msg)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.barrier</span>(<span class="at">comm=</span><span class="dv">0</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">mpi.finalize</span>())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -398,7 +402,7 @@ Note
 <p>fichier <code>hello_mpi.sh</code> nécessaire à l’utilisation d’<a href="https://oar.imag.fr">OAR</a></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">##!/bin/bash</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR --project pr-groupecalcul</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR -n hello_mpi</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR -n hello_rmpi</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR -l /nodes=1/core=4,walltime=00:01:00</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR --stdout hello_mpi.out</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#OAR --stderr hello_mpi.err</span></span>
@@ -408,7 +412,8 @@ Note
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">## Run the program</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate rmpi</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">--np</span> 4 <span class="at">--machinefile</span> <span class="va">$OAR_NODE_FILE</span> <span class="at">--mca</span> plm_rsh_agent <span class="st">"oarsh"</span> Rscript <span class="at">--vanilla</span> <span class="va">$OAR_WORKING_DIRECTORY</span>/hello_mpi.R</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ce script doit être exécutable</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod +x hello_mpi.sh</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> hello_mpi.sh</span>
@@ -448,18 +453,18 @@ Note
 <h2 class="anchored" data-anchor-id="exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</h2>
 <p><img src="images/mpmd.png" class="img-fluid"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">4</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>() )</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>() )</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( host <span class="ot">&lt;-</span> <span class="fu">mpi.get.processor.name</span>() )</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mpi.remote.exec</span>(<span class="fu">paste</span>(<span class="st">"I am"</span>, id, <span class="st">"of"</span>, np, <span class="st">"running on"</span>, host)) </span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">unlist</span>(result))</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.close.Rslaves</span>(<span class="at">dellog =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.exit</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">4</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( id <span class="ot">&lt;-</span> <span class="fu">mpi.comm.rank</span>() )</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( np <span class="ot">&lt;-</span> <span class="fu">mpi.comm.size</span>() )</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.bcast.cmd</span>( host <span class="ot">&lt;-</span> <span class="fu">mpi.get.processor.name</span>() )</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mpi.remote.exec</span>(<span class="fu">paste</span>(<span class="st">"I am"</span>, id, <span class="st">"of"</span>, np, <span class="st">"running on"</span>, host)) </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">unlist</span>(result))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.close.Rslaves</span>(<span class="at">dellog =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.exit</span>()</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> Rscript hello_mpmd.R</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">4</span> slaves are spawned successfully. 0 failed.</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">master</span> <span class="er">(</span><span class="ex">rank</span> 0, comm 1<span class="kw">)</span> <span class="ex">of</span> size 5 is running on: sr036124</span>
