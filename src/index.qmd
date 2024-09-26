@@ -1,0 +1,258 @@
+---
+title: "Rmpi"
+author: Pierre Navaro, IRMAR, CNRS.
+lang: fr
+subtitle: "MPI (Message Passing Interface) avec le langage R"
+abstract: "Supports pour apprendre à utiliser la bibliothèque MPI avec R et le package Rmpi. Cette formation a été dispensée lors de l'Action Nationale de Formation [R pour le calcul](https://indico.mathrice.fr/event/536/) à Fréjus du 23 au 27 septembre 2024"
+format:
+  html:
+    code-fold: true
+---
+
+Ces supports reprennent très largement les [supports de cours MPI de l'IDRIS](http://www.idris.fr/formations/mpi/) écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J'ai utilisé également les ressources suivantes:
+
+- [Site officiel de Rmpi](https://fisher.stats.uwo.ca/faculty/yu/Rmpi/)
+- [How to run R programs on University of Maryland HPC facility](https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/)
+- [Documentation de GRICAD](https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages)
+- [MPI Tutorial by Wes Kendall](https://mpitutorial.com)
+- [CRAN Task View: High-Performance and Parallel Computing with R](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+- [R_note by Wei-Chen Chen](https://snoweye.github.io/R_note/inc_menu/Rmpi.html)
+
+## Introduction
+
+L’utilisation de la bibliothèque MPI permet d’exploiter le parallélisme des ordinateurs en utilisant le paradigme de l’échange de messages.
+
+On parle de programme séquentiel lorsqu'il est exécuté par un et un seul processus. Dans ce cas, toutes les variables et constantes sont allouées dans la mémoire allouée au processus
+
+Dans un programme parallèle par échanges de messages
+
+- Le programme est exécuté simultanément dans plusieurs processus. 
+- Toutes les variables sont privées et résident dans la mémoire locale allouée à chaque processus.
+- Chaque processus exécute éventuellement des parties différentes d’un programme.
+- Une donnée est échangée entre deux ou plusieurs processus via des appels de fonctions.
+- Pour les langages ne disposant pas de récupérateur de mémoire, la taille sera également nécessaire (C, Fortran)
+
+
+## L’échange de messages
+
+Le message est constitué de paquets de données transitant du processus émetteur au(x) processus récepteur(s). Il devra contenir:
+
+- Les données (variables scalaires, tableaux, etc.) 
+- l’identificateur du processus émetteur
+- le type de la donnée
+- l’identificateur du processus récepteur.
+
+## Architecture des supercalculateurs
+
+La plupart des supercalculateurs sont des machines à mémoire distribuée. Ils sont composés d’un ensemble de nœud, à l’intérieur d’un nœud la mémoire est partagée. Sur un noeud on pourra éventuellement accéder à un accelérateur.
+
+## MPI vs OpenMP
+
+OpenMP utilise un schéma à mémoire partagée, tandis que pour MPI la mémoire est distribuée.
+
+## Historique
+
+- Version 1.0 : en juin 1994, le forum MPI, avec la participation d’une quarantaine d’organisations, aboutit à la définition d’un ensemble de sous-programmes concernant la bibliothèque d’échanges de messages MPI
+- Version 2.0 : apparue en juillet 1997, cette version apportait des compléments importants volontairement non intégrés dans MPI 1.0 (gestion dynamique de processus, copies mémoire à mémoire, entrées-sorties parallèles, etc.)
+- Version 3.0 : septembre 2012, cette version apportait les communications collectives non bloquantes, nouvelle interface Fortran, etc.
+- Version 4.0 : juin 2021 
+
+
+## Implémentations MPI
+
+- [MPICH](http://www.mpich.org)
+- [Open MPI](http://www.open-mpi.org)
+
+Bibliothèques scientifiques parallèles
+
+[HDF5](https://www.hdfgroup.org/downloads/hdf5) : Lecture et écriture sur fichiers. 
+
+## Anatomie d'un programme MPI
+
+- initialiser l’environnement : `initialize`
+- communicateur : `comm`
+- rang : `rank`
+- nombre de processus : `size`
+- fermer : `finalize`
+
+## Exemple C
+
+Cloner le dépôt <https://github.com/GroupeCalcul/ANFRCalculRmpi> pour récupérer les exemples.
+
+```c 
+{{< include ../codes/hello_mpi.c >}}
+```
+
+## Compilation et exécution d’un code MPI en C 
+
+Pour compiler un code MPI, il faut faire le lien avec la librairie MPI utilisée en utilisant
+par exemple `mpicc`
+
+```bash
+> mpicc hello_mpi.c -o hello
+```
+::: {.callout-tip}
+Packages ubuntu : `libopenmpi-dev`et `openmpi-bin`
+:::
+
+Pour exécuter un code MPI, on utilise un lanceur d’application MPI
+qui ordonne le lancement de l’exécution sur un nombre de processus
+choisi. Le lanceur défini par la norme MPI est `mpiexec`. Il existe
+également des lanceurs non standards, comme `mpirun`.
+
+```bash
+> mpiexec -n 4 ./hello
+Hello world from processor ar039133.math.univ-rennes1.fr, rank 2 out of 4 processors
+Hello world from processor ar039133.math.univ-rennes1.fr, rank 3 out of 4 processors
+Hello world from processor ar039133.math.univ-rennes1.fr, rank 1 out of 4 processors
+Hello world from processor ar039133.math.univ-rennes1.fr, rank 0 out of 4 processors
+```
+
+## Exemple Python
+
+Pour les langages interprétés, il est nécessaire de lancer plusieurs sessions avec `mpiexec` ou `mpirun`
+pour utiliser MPI.
+
+```python
+{{< include ../codes/hello_mpi.py >}}
+```
+
+```bash
+> mpiexec -n 4 python hello_mpi.py                     
+Hello, World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr
+Hello, World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr
+Hello, World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr
+Hello, World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr
+```
+
+## Exemple R SPMD (Single Program Multiple Data)
+
+![](images/spmd.png)
+
+```R
+{{< include ../codes/hello_mpi.R >}}
+```
+::: {.callout-note}
+Pour une raison qui m'est inconnue, si on laisse la valeur `comm=1` par défaut, l'exemple ne fonctionne pas.
+:::
+
+Installation de l'environnement logiciel
+
+```bash
+$ Rscript -e 'install.packages("Rmpi")'
+```
+
+```bash
+$ mpiexec -np 4 Rscript hello_mpi.R
+Hello world from task 003 of 004, on host srv-mingus
+Hello world from task 000 of 004, on host srv-mingus
+Hello world from task 001 of 004, on host srv-mingus
+Hello world from task 002 of 004, on host srv-mingus
+```
+
+## Exécution sur le cluster perseus
+
+Installation de `Rmpi` et récupération du matériel
+
+```bash
+source /applis/environments/conda.sh
+conda create -y -n rmpi r-rmpi -c conda-forge
+conda activate rmpi
+git clone https://github.com/GroupeCalcul/ANFRCalculRmpi
+cd ANFRCalculRmpi
+```
+
+fichier `hello_mpi.sh` nécessaire à l'utilisation d'[OAR](https://oar.imag.fr)
+
+```bash
+{{< include ../codes/hello_mpi.sh >}}
+```
+
+Ce script doit être exécutable
+
+```bash
+$ chmod +x hello_mpi.sh
+$ ls -l hello_mpi.sh
+-rwxr-xr-x 1 login-perseus l-formations 567 Sep 24 14:30 hello_mpi.sh
+$ oarsub -S ./hello_mpi.sh
+[ADMISSION RULE] Antifragmentation activated
+[ADMISSION RULE] No antifrag for small jobs
+[FAST] Adding fast resource constraints
+[PARALLEL] Small jobs (< 32 cores) restricted to tagged nodes
+[ADMISSION RULE] Modify resource description with type constraints
+[ADMISSION RULE] Found job type [verysmall]
+[ADMISSION RULE] Automatically add job type [verysmall]
+OAR_JOB_ID=26118495
+```
+
+```bash
+$ oarstat -u
+Job id    S User     Duration   System message
+--------- - -------- ---------- ------------------------------------------------
+26118496  W navarop-    0:00:00 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous|verysmall
+$ oarstat -u
+Job id    S User     Duration   System message
+--------- - -------- ---------- ------------------------------------------------
+26118496  L navarop-    0:00:03 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous|verysmall (Karma=0.004,quota_ok)
+$ oarstat -u
+Job id    S User     Duration   System message
+--------- - -------- ---------- ------------------------------------------------
+26118496  R navarop-    0:00:06 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous|verysmall (Karma=0.004,quota_ok)
+$ oarstat -u
+Job id    S User     Duration   System message
+--------- - -------- ---------- ------------------------------------------------
+26118496  F navarop-    0:00:18 R=4,W=0:1:0,J=B,N=hello_rmpi,P=groupecalcul,T=heterogeneous|verysmall (Karma=0.004,quota_ok)
+```
+
+```bash
+$ cat hello_mpi.out
+Hello world from task 003 of 004, on host dahu146
+Hello world from task 000 of 004, on host dahu146
+Hello world from task 002 of 004, on host dahu146
+Hello world from task 001 of 004, on host dahu146
+```
+
+## Exemple R MPMD (Multiple Program Multiple Data)
+
+![](images/mpmd.png)
+
+```R
+{{< include ../codes/hello_mpmd.R >}}
+```
+
+```bash
+$ Rscript hello_mpmd.R
+4 slaves are spawned successfully. 0 failed.
+master (rank 0, comm 1) of size 5 is running on: sr036124
+slave1 (rank 1, comm 1) of size 5 is running on: sr036124
+slave2 (rank 2, comm 1) of size 5 is running on: sr036124
+slave3 (rank 3, comm 1) of size 5 is running on: sr036124
+slave4 (rank 4, comm 1) of size 5 is running on: sr036124
+```
+
+::: {.callout-warning}
+Je n'ai pas réussi à faire tourner cet exemple dans l'environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu `r-cran-rmpi`.
+:::
+
+## SPMD vs MPMD
+
+On retrouve plus d'exemples utilisant la méthode MPMD mais cette forme de parallélisation est plus difficile à faire fonctionner et semble moins rapide (voir [ici]( https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/#heading_toc_j_7)). La technique SPMD présente plusieurs avantages:
+
+- Code plus proche du code séquentiel, c'est-à-dire que le SPMD est plus facile à coder à partir de la version séquentielle
+- Code plus court que la version MPMD, donc moins d'erreurs potentielles.
+- Le processeur 0 travaille également, ce qui permet d'utiliser pleinement les ressources.
+- En général la taille et nombre de messages sont plus réduits.
+
+## Exercice 
+
+Implémenter un programme MPI SPMD dans lequel chaque processus affiche un
+message indiquant si son rang est pair ou impair. Par exemple :
+
+```
+> mpiexec -np 4 Rscript pair_impair.R
+Moi, processus 0, je suis de rang pair
+Moi, processus 1, je suis de rang impair
+Moi, processus 2, je suis de rang pair
+Moi, processus 3, je suis de rang impair
+```
+

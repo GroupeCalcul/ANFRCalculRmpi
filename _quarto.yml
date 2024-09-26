@@ -1,0 +1,30 @@
+project:
+  type: website
+
+website:
+  title: ""
+  description: "Supports du cours Rmpi"
+  site-url: "https://groupecalcul.github.io/ANFRCalculRmpi"
+  repo-url: "https://github.com/GroupeCalcul/ANFRCalculRmpi"
+  repo-actions: [edit, source, issue]
+  navbar:
+    logo: src/images/logo.png
+    left:
+      - href: src/index.qmd
+        text: Introduction
+      - href: src/com_point_a_point.qmd
+        text: Communications point à point
+      - href: src/com_collectives.qmd
+        text: Communications collectives
+      - href: src/exercice.qmd
+        text: Conclusion
+    tools:
+      - icon: github
+        href: https://github.com/GroupeCalcul/ANFRCalculRmpi
+
+format:
+  html:
+    theme:
+       light: flatly
+       dark: darkly
+    toc: true

@@ -1,0 +1,81 @@
+---
+title: "Rmpi : communications point à point"
+author: Pierre Navaro, IRMAR, CNRS.
+lang: fr
+format:
+  html:
+    code-fold: true
+---
+
+# `mpi.send` et `mpi.recv`
+
+Une communication dite point à point a lieu entre deux processus, l’un appelé
+processus émetteur et l’autre processus récepteur (ou destinataire).
+L’émetteur et le récepteur sont identifiés par leur rang dans le communicateur.
+L’entité transmise entre deux processus est appelée message.
+Un message est caractérisé par son enveloppe. Celle-ci est constituée :
+
+- du rang du processus émetteur `source`;
+- du rang du processus récepteur `dest` ;
+- de l’étiquette du message `tag`;
+- du communicateur qui définit le groupe de processus et le contexte de communication `comm`.
+- Les données échangées sont typées (entiers, réels, etc...) `type`.
+
+Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de
+message puisse être réécrit sans risque d’écraser la valeur qui devait être envoyée.
+
+- `mpi.send(x, type, dest, tag,  comm = 1)`
+- `mpi.recv(x, type, source, tag,  comm = 1, status = 0)`
+
+`type` : 1 pour les entiers, 2 pour les flottants, 3 pour les caractères.
+
+L’appel `mpi.recv` pourra fonctionner avec une opération `mpi.send` si ces
+deux appels ont la même enveloppe (`source`, `dest`, `tag`, `comm`).
+
+Cette opération est bloquante : l’exécution reste bloquée jusqu’à ce que le contenu de message corresponde au message reçu.
+
+::: {.callout-note}
+Les fonctions `mpi.send.Robj` et `mpi.recv.Robj` permettent d'envoyer et recevoir des objets R à condition qu'ils soient sérialisables comme les `data.frame` par exemple.
+Il existe des versions non bloquantes `mpi.isend` et `mpi.irecv` ainsi qu'une version contractée `mpi.sendrecv` bidirectionnelle. Ces concepts ne seront pas abordés ici.
+:::
+
+## Exemple 
+
+```R
+{{< include ../codes/send_recv.R >}}
+```
+
+```bash
+$ mpiexec -np 4 Rscript send_recv.R
+Process 3  sent to process 0: 3
+Process 2  sent to process 0: 2
+Process 1  sent to process 0: 1
+Process 0: Received from process 1 saying: 1
+Process 0: Received from process 2 saying: 2
+Process 0: Received from process 3 saying: 3
+```
+
+## Exercice Ping-Pong
+
+L’exercice est décomposé en 3 étapes :
+
+1. *Ping*: compléter le script `ping_pong_1.R` de manière à ce que le processus de rang
+0 envoie un message contenant une série aléatoire de 1000 réels au rang 1.
+2. *Ping-Pong*: compléter le script `ping_pong_2.R` de manière à ce que le processus de
+rang 1 renvoie le message vers le processus de rang 0.
+3. Match de *Ping-Pong*: compléter le script `ping_pong_3.R` de manière à enchainer 9 
+échanges.
+
+## Solutions
+
+```r 
+{{< include ../corrections/ping_pong_1.R >}}
+```
+
+```r 
+{{< include ../corrections/ping_pong_2.R >}}
+```
+
+```r 
+{{< include ../corrections/ping_pong_3.R >}}
+```
