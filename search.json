@@ -151,7 +151,7 @@
     "href": "index.html#exemple-python",
     "title": "Rmpi",
     "section": "Exemple Python",
-    "text": "Exemple Python\nPour les langages interprétés, il est nécessaire de lancer plusieurs sessions avec mpiexec ou mpirun pour utiliser MPI.\n#!/usr/bin/env python\n\nfrom mpi4py import MPI\n\nsize = MPI.COMM_WORLD.Get_size()\nrank = MPI.COMM_WORLD.Get_rank()\nname = MPI.Get_processor_name()\n\nprintln(f\"Hello, World! I am process {rank} of {size} on {name}\")\n&gt; mpiexec -n 4 python hello_mpi.py                     \nHello, World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr"
+    "text": "Exemple Python\nPour les langages interprétés, il est nécessaire de lancer plusieurs sessions avec mpiexec ou mpirun pour utiliser MPI.\n#!/usr/bin/env python\n\nfrom mpi4py import MPI\n\nsize = MPI.COMM_WORLD.Get_size()\nrank = MPI.COMM_WORLD.Get_rank()\nname = MPI.Get_processor_name()\n\nprint(f\"Hello, World! I am process {rank} of {size} on {name}\")\n&gt; mpiexec -n 4 python hello_mpi.py                     \nHello, World! I am process 2 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 1 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 3 of 4 on ar039133.math.univ-rennes1.fr\nHello, World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr"
   },
   {
     "objectID": "index.html#exemple-r-spmd-single-program-multiple-data",
