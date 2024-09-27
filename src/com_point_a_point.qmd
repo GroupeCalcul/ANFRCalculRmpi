@@ -1,5 +1,5 @@
 ---
-title: "Rmpi : communications point à point"
+title: "Communications point à point"
 author: Pierre Navaro, IRMAR, CNRS.
 lang: fr
 format:
@@ -42,7 +42,7 @@ Il existe des versions non bloquantes `mpi.isend` et `mpi.irecv` ainsi qu'une ve
 ## Exemple 
 
 ```R
-{{< include ../codes/send_recv.R >}}
+{{< include codes/send_recv.R >}}
 ```
 
 ```bash
@@ -54,6 +54,11 @@ Process 0: Received from process 1 saying: 1
 Process 0: Received from process 2 saying: 2
 Process 0: Received from process 3 saying: 3
 ```
+
+```R
+{{< include pbdMPI/send_recv.R >}}
+```
+
 
 ## Exercice Ping-Pong
 
@@ -69,13 +74,13 @@ rang 1 renvoie le message vers le processus de rang 0.
 ## Solutions
 
 ```r 
-{{< include ../corrections/ping_pong_1.R >}}
+{{< include corrections/ping_pong_1.R >}}
 ```
 
 ```r 
-{{< include ../corrections/ping_pong_2.R >}}
+{{< include corrections/ping_pong_2.R >}}
 ```
 
 ```r 
-{{< include ../corrections/ping_pong_3.R >}}
+{{< include corrections/ping_pong_3.R >}}
 ```

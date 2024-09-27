@@ -16,54 +16,13 @@ format:
 - Il est parfois plus intéressant de faire le même calcul sur tous les processus que de le faire sur un seul et ensuite faire une diffusion
 - Eviter de lire des données en parallèle si vous n'utilisez pas une bibliothèque dédiée (MPI-IO). Lire le fichier sur le processeur 0 puis faire un `mpi.bcast` ou mieux un `mpi.scatter`. 
 - Essayer d'équilibrer la charge sur vos processus
-- Jeter un oeil à [pbdMPI](https://github.com/RBigData/pbdMPI). La syntaxe me semble plus sympa.
-
-Dans cet exemple, on crée autant de vecteurs que de processus initialisés à la valeur du rang. Ces vecteurs sont collectés dans une matrice construite par colonnes.
-
-```R
-{{< include ../codes/demo_pbdmpi.R >}}
-```
-
-```bash
-$ mpirun -np 4 Rscript demo_pbdmpi.R
-COMM.RANK = 0
-     [,1] [,2] [,3] [,4] [,5]
-[1,]    1    2    3    4    5
-COMM.RANK = 0
-     [,1] [,2] [,3] [,4] [,5]
-[1,]    1    2    3    4    5
-
-Original x vector:
-COMM.RANK = 0
- [1] 0 0 0 0 0 0 0 0 0 0
-COMM.RANK = 1
- [1] 1 1 1 1 1 1 1 1 1 1
-COMM.RANK = 2
- [1] 2 2 2 2 2 2 2 2 2 2
-COMM.RANK = 3
- [1] 3 3 3 3 3 3 3 3 3 3
-
-Allgather matrix (only showing process 0):
-COMM.RANK = 0
-      [,1] [,2] [,3] [,4]
- [1,]    0    1    2    3
- [2,]    0    1    2    3
- [3,]    0    1    2    3
- [4,]    0    1    2    3
- [5,]    0    1    2    3
- [6,]    0    1    2    3
- [7,]    0    1    2    3
- [8,]    0    1    2    3
- [9,]    0    1    2    3
-[10,]    0    1    2    3
-```
 
 ## Exercice
 
 On veut paralléliser l'exemple suivant avec Rmpi que j'ai trouvé [ici](https://snoweye.github.io/R_note/inc_menu/Rmpi.html)
 
 ```R
-{{< include ../codes/loop_rowSums.r >}}
+{{< include codes/loop_rowSums.r >}}
 ```
 
 Voici la version MPMD venant de la même source, essayer d'en faire une version SPMD et comparer les performances.
@@ -72,11 +31,11 @@ Voici la version MPMD venant de la même source, essayer d'en faire une version 
 - Votre code est-il plus conçis ?
 
 ```R
-{{< include ../codes/rmpi_rowSums.r >}}
+{{< include codes/rmpi_rowSums.r >}}
 ```
 
-## Solution
+## Solutions
 
 ```r 
-{{< include ../corrections/rowsum.R >}}
+{{< include corrections/rowsum.R >}}
 ```

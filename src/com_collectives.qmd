@@ -1,5 +1,5 @@
 ---
-title: "Rmpi : Communications collectives"
+title: "Communications collectives"
 author: Pierre Navaro, IRMAR, CNRS.
 lang: fr
 format:
@@ -48,7 +48,7 @@ Il y a trois types de sous-programmes :
 2. Réception de ce message à l’adresse message pour les processus autre que `rank`.
 
 ```R
-{{< include ../codes/bcast.R >}}
+{{< include codes/bcast.R >}}
 ```
 
 ::: {.callout-warning}
@@ -63,6 +63,36 @@ vector on  1  =  1 2 3 4
 vector on  0  =  1 2 3 4
 ```
 
+### Exemple pbdMPI
+
+```R
+{{< include pbdMPI/bcast.R >}}
+```
+
+```bash
+$ mpirun -np 4 Rscript pbdmpi/bcast.R
+COMM.RANK = 0
+[1] 1 2 3 4 5
+COMM.RANK = 1
+[1] 0 0 0 0 0
+COMM.RANK = 2
+[1] 0 0 0 0 0
+COMM.RANK = 3
+[1] 0 0 0 0 0
+COMM.RANK = 0
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    4    5
+COMM.RANK = 1
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    4    5
+COMM.RANK = 2
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    4    5
+COMM.RANK = 3
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    4    5
+```
+
 
 ## Diffusion sélective `mpi.scatter`
 
@@ -71,7 +101,7 @@ La ième tranche est envoyée au ième processus.
 ![](images/broadcastvsscatter.png)
 
 ```R
-{{< include ../codes/scatter.R >}}
+{{< include codes/scatter.R >}}
 ```
 
 ```bash
@@ -126,7 +156,7 @@ Opérations pour réductions réparties
  - "minloc" : Recherche de l’indice du minimum
 
 ```R
-{{< include ../codes/reduce.R >}}
+{{< include codes/reduce.R >}}
 ```
 
 ```bash
