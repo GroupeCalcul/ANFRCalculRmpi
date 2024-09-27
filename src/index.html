@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pierre Navaro, IRMAR, CNRS.">
 
-<title>Rmpi</title>
+<title>MPI (Message Passing Interface) avec le langage R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,8 +181,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Rmpi</h1>
-<p class="subtitle lead">MPI (Message Passing Interface) avec le langage R</p>
+<h1 class="title">MPI (Message Passing Interface) avec le langage R</h1>
+<p class="subtitle lead">Les packages Rmpi et pdbMPI</p>
 </div>
 
 
@@ -214,6 +214,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ces supports reprennent très largement les <a href="http://www.idris.fr/formations/mpi/">supports de cours MPI de l’IDRIS</a> écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J’ai utilisé également les ressources suivantes:</p>
 <ul>
 <li><a href="https://fisher.stats.uwo.ca/faculty/yu/Rmpi/">Site officiel de Rmpi</a></li>
+<li><a href="https://github.com/RBigData/pbdMPI">Package pdbMPI</a></li>
+<li><a href="https://pbdr.org/documentation/pbdMPI/">Documentation pdbMPI</a></li>
 <li><a href="https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/">How to run R programs on University of Maryland HPC facility</a></li>
 <li><a href="https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages">Documentation de GRICAD</a></li>
 <li><a href="https://mpitutorial.com">MPI Tutorial by Wes Kendall</a></li>
@@ -452,6 +454,7 @@ Note
 <section id="exemple-r-mpmd-multiple-program-multiple-data" class="level2">
 <h2 class="anchored" data-anchor-id="exemple-r-mpmd-multiple-program-multiple-data">Exemple R MPMD (Multiple Program Multiple Data)</h2>
 <p><img src="images/mpmd.png" class="img-fluid"></p>
+<p>Ce modèle de programmation n’est possible qu’avec le package Rmpi. Il permet de conserver l’interactivité et de travailler dans une cosole.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmpi)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mpi.spawn.Rslaves</span>(<span class="at">nslaves =</span> <span class="dv">4</span>, <span class="at">needlog =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -482,9 +485,20 @@ Avertissement
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Je n’ai pas réussi à faire tourner cet exemple dans l’environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu <code>r-cran-rmpi</code>.</p>
+<p>Je n’ai pas réussi à faire tourner cet exemple dans l’environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu <code>r-cran-rmpi</code>. Pas de souci particulier avec pbdMPI.</p>
 </div>
 </div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(pbdMPI, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Hello from rank"</span>, <span class="fu">comm.rank</span>(), <span class="st">"of"</span>, <span class="fu">comm.size</span>())</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">comm.print</span>(message, <span class="at">all.rank =</span> <span class="cn">TRUE</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">finalize</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mpirun <span class="at">-np</span> 4 Rscript pbdmpi/hello.R</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"Hello from rank 0 of 4"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"Hello from rank 1 of 4"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"Hello from rank 2 of 4"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"Hello from rank 3 of 4"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="spmd-vs-mpmd" class="level2">
 <h2 class="anchored" data-anchor-id="spmd-vs-mpmd">SPMD vs MPMD</h2>
