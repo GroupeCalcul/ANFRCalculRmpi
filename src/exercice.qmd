@@ -39,3 +39,7 @@ Voici la version MPMD venant de la même source, essayer d'en faire une version 
 ```r 
 {{< include corrections/rowsum.R >}}
 ```
+
+```r 
+{{< include pbdmpi/rowsum.R >}}
+```
