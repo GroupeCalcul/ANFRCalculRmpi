@@ -62,7 +62,7 @@ vector on  0  =  1 2 3 4
 ### Exemple [pbdMPI](https://pbdr.org/documentation/pbdMPI/aa_bcast-method.html)
 
 ```R
-{{< include pbdMPI/bcast.R >}}
+{{< include pbdmpi/bcast.R >}}
 ```
 
 ```bash
@@ -109,7 +109,7 @@ data on 1 : 3 4 11 12 19 20
 ```
 
 ```R
-{{< include pbdMPI/scatter.R >}}
+{{< include pbdmpi/scatter.R >}}
 ```
 
 ```bash
@@ -149,7 +149,7 @@ Attention avec ces fonctions `mpi.all*` elles peuvent être très gourmandes...
 :::
 
 ```R
-{{< include pbdMPI/gather.R >}}
+{{< include pbdmpi/gather.R >}}
 ```
 
 ```bash
@@ -225,7 +225,7 @@ data on 1 : 3 4 11 12 19 20
 Exemple [pbdMPI](https://pbdr.org/documentation/pbdMPI/aa_reduce-method.html)
 
 ```R
-{{< include pbdMPI/reduce.R >}}
+{{< include pbdmpi/reduce.R >}}
 ```
 
 ```bash

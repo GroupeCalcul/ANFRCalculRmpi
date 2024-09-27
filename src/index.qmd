@@ -239,7 +239,7 @@ Je n'ai pas réussi à faire tourner cet exemple dans l'environnement conda. En 
 :::
 
 ```R
-{{< include pbdMPI/hello.R >}}
+{{< include pbdmpi/hello.R >}}
 ```
 
 ```bash

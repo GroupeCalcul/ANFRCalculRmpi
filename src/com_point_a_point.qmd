@@ -56,7 +56,7 @@ Process 0: Received from process 3 saying: 3
 ```
 
 ```R
-{{< include pbdMPI/send_recv.R >}}
+{{< include pbdmpi/send_recv.R >}}
 ```
 
 
