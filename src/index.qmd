@@ -1,8 +1,8 @@
 ---
-title: "Rmpi"
+title: "MPI (Message Passing Interface) avec le langage R"
+subtitle: "Les packages Rmpi et pdbMPI"
 author: Pierre Navaro, IRMAR, CNRS.
 lang: fr
-subtitle: "MPI (Message Passing Interface) avec le langage R"
 abstract: "Supports pour apprendre à utiliser la bibliothèque MPI avec R et le package Rmpi. Cette formation a été dispensée lors de l'Action Nationale de Formation [R pour le calcul](https://indico.mathrice.fr/event/536/) à Fréjus du 23 au 27 septembre 2024"
 format:
   html:
@@ -12,6 +12,8 @@ format:
 Ces supports reprennent très largement les [supports de cours MPI de l'IDRIS](http://www.idris.fr/formations/mpi/) écrits par Dimitri Lecas, Rémi Lacroix, Serge Van Criekingen et Myriam Peyrounette. J'ai utilisé également les ressources suivantes:
 
 - [Site officiel de Rmpi](https://fisher.stats.uwo.ca/faculty/yu/Rmpi/)
+- [Package pdbMPI](https://github.com/RBigData/pbdMPI)
+- [Documentation pdbMPI](https://pbdr.org/documentation/pbdMPI/)
 - [How to run R programs on University of Maryland HPC facility](https://hpcf.umbc.edu/other-packages/how-to-run-r-programs-on-maya/)
 - [Documentation de GRICAD](https://gricad-doc.univ-grenoble-alpes.fr/hpc/softenv/nix/#r-packages)
 - [MPI Tutorial by Wes Kendall](https://mpitutorial.com)
@@ -80,7 +82,7 @@ Bibliothèques scientifiques parallèles
 Cloner le dépôt <https://github.com/GroupeCalcul/ANFRCalculRmpi> pour récupérer les exemples.
 
 ```c 
-{{< include ../codes/hello_mpi.c >}}
+{{< include codes/hello_mpi.c >}}
 ```
 
 ## Compilation et exécution d’un code MPI en C 
@@ -114,7 +116,7 @@ Pour les langages interprétés, il est nécessaire de lancer plusieurs sessions
 pour utiliser MPI.
 
 ```python
-{{< include ../codes/hello_mpi.py >}}
+{{< include codes/hello_mpi.py >}}
 ```
 
 ```bash
@@ -130,7 +132,7 @@ Hello, World! I am process 0 of 4 on ar039133.math.univ-rennes1.fr
 ![](images/spmd.png)
 
 ```R
-{{< include ../codes/hello_mpi.R >}}
+{{< include codes/hello_mpi.R >}}
 ```
 ::: {.callout-note}
 Pour une raison qui m'est inconnue, si on laisse la valeur `comm=1` par défaut, l'exemple ne fonctionne pas.
@@ -165,7 +167,7 @@ cd ANFRCalculRmpi
 fichier `hello_mpi.sh` nécessaire à l'utilisation d'[OAR](https://oar.imag.fr)
 
 ```bash
-{{< include ../codes/hello_mpi.sh >}}
+{{< include codes/hello_mpi.sh >}}
 ```
 
 Ce script doit être exécutable
@@ -216,8 +218,10 @@ Hello world from task 001 of 004, on host dahu146
 
 ![](images/mpmd.png)
 
+Ce modèle de programmation n'est possible qu'avec le package Rmpi. Il permet de conserver l'interactivité et de travailler dans une cosole.
+
 ```R
-{{< include ../codes/hello_mpmd.R >}}
+{{< include codes/hello_mpmd.R >}}
 ```
 
 ```bash
@@ -231,8 +235,21 @@ slave4 (rank 4, comm 1) of size 5 is running on: sr036124
 ```
 
 ::: {.callout-warning}
-Je n'ai pas réussi à faire tourner cet exemple dans l'environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu `r-cran-rmpi`.
+Je n'ai pas réussi à faire tourner cet exemple dans l'environnement conda. En revanche cela fonctionne sur Linux avec le package ubuntu `r-cran-rmpi`. Pas de souci particulier avec pbdMPI.
 :::
+
+```R
+{{< include pbdMPI/hello.R >}}
+```
+
+```bash
+$ mpirun -np 4 Rscript pbdmpi/hello.R
+[1] "Hello from rank 0 of 4"
+[1] "Hello from rank 1 of 4"
+[1] "Hello from rank 2 of 4"
+[1] "Hello from rank 3 of 4"
+```
+
 
 ## SPMD vs MPMD
 
