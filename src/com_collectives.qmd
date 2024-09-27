@@ -51,10 +51,6 @@ Il y a trois types de sous-programmes :
 {{< include codes/bcast.R >}}
 ```
 
-::: {.callout-warning}
-Habituellement avec MPI, le même appel `mpi.bcast` devrait pouvoir être effectué sur tous les processus. Je n'ai pas réussi à le faire avec Rmpi...
-:::
-
 ```bash
 $ mpirun -np 4 Rscript bcast.R
 vector on  3  =  1 2 3 4
@@ -63,7 +59,7 @@ vector on  1  =  1 2 3 4
 vector on  0  =  1 2 3 4
 ```
 
-### Exemple pbdMPI
+### Exemple [pbdMPI](https://pbdr.org/documentation/pbdMPI/aa_bcast-method.html)
 
 ```R
 {{< include pbdMPI/bcast.R >}}
@@ -112,6 +108,27 @@ data on 2 : 5 6 13 14 21 22
 data on 1 : 3 4 11 12 19 20
 ```
 
+```R
+{{< include pbdMPI/scatter.R >}}
+```
+
+```bash
+$ mpirun -np 4 Rscript pbdmpi/scatter.R
+Original x:
+COMM.RANK = 0
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+Scatter list:
+COMM.RANK = 0
+[1] 1
+COMM.RANK = 1
+[1] 2 3
+COMM.RANK = 2
+[1] 4 5 6
+COMM.RANK = 3
+[1]  7  8  9 10
+```
+
 ## Collecte `mpi.gather`
 
 ![](images/gather.png)
@@ -130,6 +147,42 @@ Correspond à un `mpi.gather` suivi d’un `mpi.bcast`
 ::: {.callout-warning}
 Attention avec ces fonctions `mpi.all*` elles peuvent être très gourmandes...
 :::
+
+```R
+{{< include pbdMPI/gather.R >}}
+```
+
+```bash
+$ mpirun -np 4 Rscript pbdmpi/gather.R
+Original x:
+COMM.RANK = 0
+[1] 1
+COMM.RANK = 1
+[1] 1 2
+COMM.RANK = 2
+[1] 1 2 3
+COMM.RANK = 3
+[1] 1 2 3 4
+
+Gather matrix:
+COMM.RANK = 0
+[[1]]
+     [,1]
+[1,]    1
+
+[[2]]
+     [,1] [,2]
+[1,]    1    2
+
+[[3]]
+     [,1] [,2] [,3]
+[1,]    1    2    3
+
+[[4]]
+     [,1] [,2] [,3] [,4]
+[1,]    1    2    3    4
+```
+
 
 # Réductions réparties
 
@@ -169,3 +222,26 @@ data on 1 : 3 4 11 12 19 20
 16 20 48 52 80 84
 ```
 
+Exemple [pbdMPI]
+
+```R
+{{< include pbdMPI/reduce.R >}}
+```
+
+```bash
+$ mpirun -np 4 Rscript pbdmpi/reduce.R
+Original x:
+COMM.RANK = 0
+[1] 1 2 3 4 5
+COMM.RANK = 1
+[1]  6  7  8  9 10
+COMM.RANK = 2
+[1] 11 12 13 14 15
+COMM.RANK = 3
+[1] 16 17 18 19 20
+
+Reduce sum:
+COMM.RANK = 0
+     [,1] [,2] [,3] [,4] [,5]
+[1,]   34   38   42   46   50
+```
